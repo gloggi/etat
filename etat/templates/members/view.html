@@ -1,0 +1,50 @@
+{% extends "modal.html" %}
+{% load i18n thumbnail %}
+
+{% block title %}
+    {{ member.fullname }}
+    {% if member.scout_name %}v/o {{ member.scout_name}}{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="modal-body">
+    <table class="table">
+        <tr>
+        <td>
+            {% thumbnail member.portrait "x120" as im %}
+                <img src="{{ im.url }}">
+            {% empty %}
+                <p>{% trans "No image" %}</p>
+            {% endthumbnail %}
+        </td>
+        <td>
+            {% for reachability in member.reachabilities.all %}
+            <div class="row">
+                <div class="col-md-1 align-center">
+                    <i class="{{ reachability.icon_class }}"></i>
+                </div>
+                <div class="col-md-11">
+                    {{ reachability.value|urlize }}
+                </div>
+            </div>
+            {% endfor %}
+        </td>
+        <td>
+            {% with member.address as adr %}
+                <strong>{% trans "Address" %}</strong>
+                <p>{{ adr.street }}<br>
+                    {% if adr.addition %}{{ adr.addition }}<br>{% endif %}
+                    {{ adr.postal_code }} {{ adr.city }}<br>
+                    {% if adr.country != 'CH' %}
+                        {{ adr.get_country_display }}
+                    {% endif %}
+                </p>
+            {% endwith %}
+        </td>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

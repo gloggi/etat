@@ -1,0 +1,13 @@
+{% load bootstrap %}
+<tr class="{% if form.non_field_errors %}danger{% endif %}">
+    {% for field in form.hidden_fields %}
+        {{ field }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        {% if not forloop.last %}
+            <td>{{ field|bootstrap_inline  }}</td>
+        {% else %}
+            <td>{{ form.DELETE }}</td>
+        {% endif %}
+    {% endfor %}
+</tr>

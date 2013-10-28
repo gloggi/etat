@@ -1,0 +1,10 @@
+<div class="modal-content">
+  <div class="modal-header">
+    {% block header %}
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{% block title %}{% endblock %}</h4>
+    {% endblock %}
+  </div>
+  {% block content %}{% endblock %}
+</div>
+</div>

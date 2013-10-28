@@ -1,0 +1,96 @@
+{% load i18n %}
+
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="index,follow,noodp">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <title>ETAT</title>
+
+  <link rel="stylesheet" href="{{ STATIC_URL }}bower/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}bower/bootstrap-datepicker/css/datepicker.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}libs/jqtree/jqtree.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}libs/bootstrap-modal/css/bootstrap-modal-bs3patch.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}libs/bootstrap-modal/css/bootstrap-modal.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}libs/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}libs/chosen/chosen.css">
+  <link href='http://fonts.googleapis.com/css?family=Arvo:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css">
+  {% block extra-head %}{% endblock %}
+</head>
+
+<body>
+  {% block body %}
+    {% block navbar %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+              <i class="logo-small"></i>
+              {% trans "ETAT" %}
+          </a>
+          <ul class="nav navbar-nav">
+            {% block nav %}
+            <li>
+                <a href="{% url 'member_list' %}">
+                  <i class="fa fa-group"></i> {% trans "Members" %}
+                </a>
+            </li>
+            {% endblock %}
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            {% if request.user.is_superuser %}
+            <li>
+              <a href="/admin/">
+                <i class="fa fa-wrench"></i> {% trans "Admin" %}
+              </a>
+            </li>
+            <li class="divider"></li>
+            {% endif %}
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user fa fa-white"></i> {{ request.user }}
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="{% url 'logout' %}?next={% url 'login' %}">
+                    <i class="fa fa-off"></i> {% trans "Log out" %}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endblock navbar %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+  {% endblock body %}
+
+  <div id="ajax-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+  <script src="{{ STATIC_URL }}bower/jquery/jquery.js"></script>
+  <script src="{{ STATIC_URL }}bower/jquery.cookie/jquery.cookie.js"></script>
+  <script src="{{ STATIC_URL }}bower/jquery-form/jquery.form.js"></script>
+  <script src="{{ STATIC_URL }}bower/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="{{ STATIC_URL }}bower/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="{{ STATIC_URL }}bower/listjs/src/list.js"></script>
+  <script src="{{ STATIC_URL }}bower/underscore/underscore.js"></script>
+  <script src="{{ STATIC_URL }}bower/backbone/backbone.js"></script>
+  <script src="{{ STATIC_URL }}libs/chosen/chosen.jquery.js"></script>
+  <script src="{{ STATIC_URL }}libs/bootstrap-modal/js/bootstrap-modal.js"></script>
+  <script src="{{ STATIC_URL }}libs/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+  <script src="{{ STATIC_URL }}libs/jqtree/tree.jquery.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+  <script src="{{ STATIC_URL }}js/global.js"></script>
+  <script src="{{ STATIC_URL }}js/ajax_modal.js"></script>
+  <script src="{{ STATIC_URL }}js/models.js"></script>
+  {% block javascript %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% extends 'admin/change_list.html' %}
+{% load i18n %}
+{% block object-tools-items %}
+    {{ block.super }}
+    <a class="btn btn-info" href="{{ tree_url }}">
+        <i class="fa fa-move fa fa-white"></i>
+        {% trans "Tree view" %}
+    </a>
+{% endblock %}

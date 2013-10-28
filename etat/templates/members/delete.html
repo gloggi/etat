@@ -1,0 +1,24 @@
+{% extends "modal.html" %}
+{% load i18n bootstrap %}
+
+{% block title %}
+    Delete {{ member.fullname }}
+    {% if member.scout_name %}v/o {{ member.scout_name}}{% endif %}?
+{% endblock %}
+
+{% block content %}
+{% url 'member_delete' m_id=member.id as delete_url %}
+<form action="{{ delete_url }}" method="post">
+    {% csrf_token %}
+    <div class="modal-body">
+        <p>{% trans "The follow data will be deleted constantly:" %}</p>
+        <ul class="list">{{ to_delete|unordered_list }}</ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning pull-left" data-dismiss="modal">
+            {% trans "No" %}
+        </button>
+        <input type="submit" class="btn btn-danger" value="{% trans 'YES!' %}">
+    </div>
+</form>
+{% endblock %}

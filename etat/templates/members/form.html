@@ -1,0 +1,167 @@
+{% extends "modal.html" %}
+{% load i18n bootstrap partials %}
+
+{% block title %}
+    {% if member %}
+        {{ member.fullname }}
+        {% if member.scout_name %}v/o {{ member.scout_name}}{% endif %}
+    {% else %}
+        {% trans "Add new member" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<form action="{{ request.path }}" method="post" enctype="multipart/form-data"
+    class="member-form {% if member %} edit {% else %} add {% endif %}">
+<div class="modal-body">
+    {% csrf_token %}
+
+    <ul class="nav nav-tabs member-tab-nav nav-justified">
+      <li><a href="#person" data-toggle="tab">
+            <i class="fa fa-user"></i> {% trans "Person" %}</a></li>
+      <li><a href="#contact" data-toggle="tab">
+            <i class="fa fa-envelope"></i> {% trans "Contact" %}</a></li>
+      <li><a href="#roles" data-toggle="tab">
+            <i class="fa fa-shield"></i> {% trans "Roles" %}</a></li>
+      <li><a href="#education" data-toggle="tab">
+            <i class="fa fa-star"></i> {% trans "Education" %}</a></li>
+      <li><a href="#notes" data-toggle="tab">
+            <i class="fa fa-file-text"></i> {% trans "Notes" %}</a></li>
+    </ul>
+    <div class="tab-content member-tabs">
+        {% form_header member_form %}
+        <div class="tab-pane" id="person">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ member_form.scout_name|bootstrap }}
+                    {{ member_form.first_name|bootstrap }}
+                    {{ member_form.last_name|bootstrap }}
+                    <div class="form-group">
+                        <label class="control-label">
+                            {{ member_form.gender.label }}
+                        </label>
+                        <div class="btn-group full" data-toggle="buttons">
+                            <label class="btn btn-default half">
+                              <input type="radio" name="gender" value="m">
+                              <i class="fa fa-male"></i>
+                              Gentleman
+                            </label>
+                            <label class="btn btn-default half" >
+                              <input type="radio" name="gender" value="f" >
+                              <i class="fa fa-female"></i>
+                              Lady
+                            </label>
+                        </div>
+                        {{ member_form.gender.errors }}
+                    </div>
+                    {{ member_form.birthday|bootstrap }}
+                </div>
+                <div class="col-md-6">
+                    {{ member_form.portrait|bootstrap }}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane formset" id="contact">
+            {{ address_formset.management_form }}
+            <table class="table table-condensed addresses">
+                <tr>
+                    <th width="30%">{% trans "street" %}</th>
+                    <th width="10%">{% trans "post code" %}</th>
+                    <th width="20%">{% trans "city" %}</th>
+                    <th width="20%">{% trans "country" %}</th>
+                    <th width="10%">{% trans "main" %}</th>
+                    <th width="10%"></th>
+                </tr>
+                {% formset_table_rows address_formset %}
+            </table>
+            <table class="address form-template">
+                {% formset_table_row address_formset.empty_form %}
+            </table>
+            {% formset_errors address_formset %}
+
+
+
+            {{ reachability_formset.management_form }}
+            <table class="table table-condensed reachability">
+                <tr>
+                    <th width="20%">{% trans "Type" %}</th>
+                    <th width="20%">{% trans "Kind" %}</th>
+                    <th width="50%">{% trans "Value" %}</th>
+                    <th width="10%"></th>
+                </tr>
+                {% formset_table_rows reachability_formset %}
+            </table>
+            <table class="reachability form-template">
+                {% formset_table_row reachability_formset.empty_form %}
+            </table>
+            {% formset_errors reachability_formset %}
+        </div>
+        <div class="tab-pane formset" id="roles">
+            {{ roles_formset.management_form }}
+            <table class="table roles">
+                <tr>
+                    <th width="25%">{% trans "Department" %}</th>
+                    <th width="25%">{% trans "Role" %}</th>
+                    <th width="20%">{% trans "start" %}</th>
+                    <th width="20%">{% trans "end" %}</th>
+                    <th width="10%"></th>
+                </tr>
+                {% formset_table_rows roles_formset %}
+            </table>
+            <table class="role form-template">
+                {% formset_table_row roles_formset.empty_form %}
+            </table>
+            {% formset_errors roles_formset %}
+        </div>
+        <div class="tab-pane formset" id="education">
+            {{ education_formset.management_form }}
+            <table class="table educations">
+                <tr>
+                    <th width="60%">{% trans "Type" %}</th>
+                    <th width="30%">{% trans "Date" %}</th>
+                    <th width="10%"></th>
+                </tr>
+                {% formset_table_rows education_formset %}
+            </table>
+            <table class="education form-template">
+                {% formset_table_row education_formset.empty_form %}
+            </table>
+            {% formset_errors education_formset %}
+        </div>
+        <div class="tab-pane" id="notes">
+            {{ member_form.notes|bootstrap }}
+        </div>
+    </div>
+</div>
+<div class="modal-footer {% if member %} edit {% else %} add {% endif %}">
+    {% url 'member_delete' m_id=member.id as delete_url %}
+    <a href="{{ delete_url }}" class="btn btn-danger modal_link pull-left" data-width="500px">
+        <i class="fa fa-trash"></i>
+        {% trans "Delete" %}
+    </a>
+    <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}">
+</div>
+
+<script>
+    // Stuff that can only be done inline
+    $(function () {
+        {% if form.errors %}
+            $('a[href=#person]').tab('show');
+        {% elif address_formset.has_errors %}
+            $('a[href=#contact]').tab('show');
+        {% elif reachability_formset.has_errors %}
+            $('a[href=#contact]').tab('show');
+        {% elif roles_formset.has_errors %}
+            $('a[href=#roles]').tab('show');
+        {% else %}
+            $('.member-tab-nav a:first').tab('show');
+        {% endif %}
+
+        $('input[name=gender][value={{ member_form.gender.value }}]').click();
+    });
+
+    // Kick of Member Form View
+    var memberForm = new Etat.Views.MemberForm({el: $('.member-form')});
+</script>
+</form>
+{% endblock %}

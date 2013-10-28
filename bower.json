@@ -1,0 +1,22 @@
+{
+  "name": "etat",
+  "version": "0.1",
+  "homepage": "https://github.com/guetux/etat",
+  "authors": [
+    "Stefan Reinhard <sr@feinheit.ch>"
+  ],
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "underscore": "~1.5.2",
+    "backbone": "~1.1.0",
+    "bootstrap": "~3.0.0",
+    "jquery.cookie": "~1.4.0",
+    "listjs": "~0.2.1",
+    "jquery-form": "~3.45.0",
+    "bootstrap-datepicker": "~1.2.0"
+  },
+  "resolutions": {
+    "bootstrap": "~3.0.0"
+  }
+}

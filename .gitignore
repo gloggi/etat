@@ -1,0 +1,17 @@
+*.pyc
+*~
+.*.swp
+\#*#
+.DS_Store
+._*
+.Python
+.idea
+dev.db
+local_settings.py
+/static
+/uploads
+/build
+/dist
+/bin
+/venv
+/etat/static/bower
