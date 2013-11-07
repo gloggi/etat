@@ -8,6 +8,8 @@
 .idea
 dev.db
 local_settings.py
+/db/*.csv
+/db/*.mdb
 /static
 /uploads
 /build

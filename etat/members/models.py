@@ -8,7 +8,18 @@ from django_countries import CountryField
 
 from sorl.thumbnail import ImageField
 
-class Member(models.Model):
+class BaseModel(models.Model):
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    legacy_id = models.PositiveIntegerField(blank=True, null=True,
+        editable=False, unique=True)
+
+    class Meta:
+        abstract = True
+
+
+class Member(BaseModel):
     GENDER_CHOICES = (
         ('f', _('female')),
         ('m', _('male')),
@@ -48,7 +59,7 @@ class Member(models.Model):
         except:
             return None
 
-class RoleType(models.Model):
+class RoleType(BaseModel):
 
     name = models.CharField(_('name'), max_length=100)
     order = models.PositiveIntegerField()
@@ -62,7 +73,7 @@ class RoleType(models.Model):
         return self.name
 
 
-class Role(models.Model):
+class Role(BaseModel):
     member = models.ForeignKey(Member, related_name='roles')
     department = TreeForeignKey('departments.Department')
     type = models.ForeignKey(RoleType)
@@ -89,7 +100,7 @@ class Role(models.Model):
         return self.end is None or now().date() < self.end
 
 
-class Address(models.Model):
+class Address(BaseModel):
 
     member = models.ForeignKey(Member, related_name='addresses')
 
@@ -112,7 +123,7 @@ class Address(models.Model):
     def __unicode__(self):
         return u'%s, %s %s' % (self.street, self.postal_code, self.city)
 
-class Reachability(models.Model):
+class Reachability(BaseModel):
 
     TYPE_CHOICES = (
         ('email',       _('Email')),
@@ -156,7 +167,7 @@ class Reachability(models.Model):
         return self.icons.get(self.type, 'icon-envelope')
 
 
-class EducationType(models.Model):
+class EducationType(BaseModel):
     title = models.CharField(_('title'), max_length=100)
     order = models.PositiveIntegerField()
 
@@ -169,7 +180,7 @@ class EducationType(models.Model):
         return self.title
 
 
-class Education(models.Model):
+class Education(BaseModel):
     member = models.ForeignKey(Member, related_name='educations')
     type = models.ForeignKey(EducationType)
 

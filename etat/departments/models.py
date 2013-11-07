@@ -31,6 +31,8 @@ class Department(MPTTModel):
     logo = models.ImageField(_('logo'), upload_to='departments',
         null=True, blank=True)
 
+    legacy_id = models.CharField(max_length=100, unique=True, blank=True)
+
     class Meta:
         verbose_name = _('Department')
         verbose_name_plural = _('Departments')
