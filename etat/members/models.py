@@ -78,7 +78,7 @@ class Role(BaseModel):
     department = TreeForeignKey('departments.Department')
     type = models.ForeignKey(RoleType)
 
-    start = models.DateField(_('start'))
+    start = models.DateField(_('start'), null=True, blank=True)
     end = models.DateField(_('end'), null=True, blank=True)
 
     class Meta:

@@ -17,7 +17,8 @@ from django.utils.datastructures import SortedDict
 
 FLOAT_RE = re.compile(r'^\d+\.\d+$')
 INT_RE = re.compile(r'^\d+$')
-
+DATE_RE = re.compile(r'^\d{4}-\d{2}-\d{2} 00:00:00$')
+DATETIME_RE = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$')
 
 class Dataset(list):
 
@@ -37,6 +38,11 @@ class Dataset(list):
                         value = float(value)
                     elif INT_RE.match(value):
                         value = int(value)
+                    elif DATE_RE.match(value):
+                        value = value.split(' ')[0]
+                        value = datetime.strptime(value, '%Y-%m-%d').date()
+                    elif DATETIME_RE.match(value):
+                        value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
                     else:
                         value = value.decode('utf-8').strip()
 
@@ -48,10 +54,10 @@ class Dataset(list):
 
 from etat.departments.models import Department, DepartmentType
 
-KORPS, __ = DepartmentType.objects.get_or_create(name='Korps / Region')
-ABTEILUNG, __ = DepartmentType.objects.get_or_create(name='Abteilung')
-EINHEIT, __ = DepartmentType.objects.get_or_create(name='Einheit')
-
+KORPS, __ = DepartmentType.objects.get_or_create(name='Korps / Region', order=1)
+ABTEILUNG, __ = DepartmentType.objects.get_or_create(name='Abteilung', order=2)
+EINHEIT, __ = DepartmentType.objects.get_or_create(name='Einheit', order=3)
+GRUPPE, __ = DepartmentType.objects.get_or_create(name='Gruppe', order=4)
 
 existing_departments = Department.objects.all().values_list('legacy_id', flat=True)
 
@@ -135,10 +141,39 @@ for e in einheiten:
     d.save()
 
 
+gruppen = Dataset('Tabelle:Gruppen.csv', {
+    'Gruppennummer': 'legacy_id',
+    'Gruppenname': 'name',
+    'Einheitennummer': 'parent_legacy_id'
+})
+
+for g in gruppen:
+    g['legacy_id'] = 'G%s' % g['legacy_id']
+
+    if g['legacy_id'] in existing_departments:
+        continue
+
+    d = Department()
+
+    try:
+        parent_id = 'E%s' % g['parent_legacy_id']
+        d.parent = Department.objects.get(legacy_id=parent_id)
+    except Department.DoesNotExist:
+        continue
+
+    for key, value in g.items():
+        setattr(d, key, value)
+
+    d.type = GRUPPE
+
+    print d.legacy_id
+    d.save()
+
+
 # Member import
 
 from etat.members.models import (Member, RoleType, Role, Address, Reachability,
-    EducationType)
+    EducationType, Education)
 
 funktionstypen = Dataset('Tabelle:Funktionstypen.csv', {
     'Funktionsnummer': 'legacy_id',
@@ -158,7 +193,8 @@ for f in funktionstypen:
     for k, v in f.items():
         setattr(r, k, v)
 
-    print r.legacy_id
+    print 'Funktionstyp', r.legacy_id
+    r.save()
 
 
 stammdaten = Dataset('Stammdaten.csv', {
@@ -167,24 +203,30 @@ stammdaten = Dataset('Stammdaten.csv', {
     'nachname': 'last_name',
     'vulgo': 'scout_name',
     'Geschlecht': 'gender',
+    'Geburtsdatum': 'birthday',
     'Memo': 'notes',
 
     'Adresse1': 'street',
+    'Adresse2': 'additon',
     'PLZ': 'postal_code',
     'Ort': 'city',
     u'Landeskürzel': 'country',
 })
 
-Member.objects.all().delete()
-
 existing_members = Member.objects.all().values_list('legacy_id', flat=True)
 
-for p in stammdaten[:1000]:
+for p in stammdaten:
     if p['legacy_id'] in existing_members:
         continue
 
     # Member
     m = Member()
+
+    if not p['birthday']:
+        p['birthday'] = None
+
+    if p['additon']:
+        p['street'] += ' ' + p['additon']
 
     for k, v in p.items():
         setattr(m, k, v)
@@ -192,9 +234,7 @@ for p in stammdaten[:1000]:
     if not m.gender:
         m.gender = 'w'
 
-    if p['Geburtsdatum']:
-        m.birthday = datetime.strptime(p['Geburtsdatum'], '%Y-%m-%d %H:%M:%S')
-
+    print 'Person ', m.legacy_id
     m.save()
 
     # Adresse
@@ -234,3 +274,113 @@ for p in stammdaten[:1000]:
             type='email',
             value=p['EMail']
         )
+
+
+funktionen = Dataset('Tabelle:Funktionen.csv', {
+    'Beziehungsnummer': 'legacy_id',
+    'Ref zur Person': 'member_id',
+    'Funktionstyp': 'role_type_id',
+    'Korpsnummer': 'korps_id',
+    'Abteilungsnummer': 'abteilung_id',
+    'Einheitsnummer': 'einheit_id',
+    'Gruppennummer': 'gruppe_id',
+    'Beginn': 'start',
+    'Ende': 'end',
+})
+
+member_mapping = dict(Member.objects.all().values_list('legacy_id', 'id'))
+
+role_type_mapping = dict(RoleType.objects.all().values_list('legacy_id', 'id'))
+
+department_mapping = dict(Department.objects.all().values_list('legacy_id', 'id'))
+
+existing_roles = Role.objects.all().values_list('legacy_id', flat=True)
+
+for f in funktionen:
+
+    if f['legacy_id'] in existing_roles:
+        continue
+
+    try:
+        if f['gruppe_id']:
+            department_id = department_mapping['G%d' % f['gruppe_id']]
+        elif f['einheit_id']:
+            department_id = department_mapping['E%d' % f['einheit_id']]
+        elif f['abteilung_id']:
+            department_id = department_mapping['A%d' % f['abteilung_id']]
+        elif f['korps_id']:
+            department_id = department_mapping['K%d' % f['korps_id']]
+        else:
+            continue
+    except:
+        continue
+
+    if type(f['start']) == unicode:
+        f['start'] = None
+    elif type(f['start']) == datetime:
+        f['start'] = f['start'].date()
+
+    if type(f['end']) == unicode:
+        f['end'] = None
+    elif type(f['start']) == datetime:
+        f['end'] = f['end'].date()
+
+    print 'Funktion ', f['legacy_id']
+    Role.objects.create(
+        member_id=member_mapping[f['member_id']],
+        department_id=department_id,
+        type_id=role_type_mapping[f['role_type_id']],
+        start=f['start'],
+        end=f['end'],
+        legacy_id=f['legacy_id']
+    )
+
+ausbildungstypen = Dataset('Tabelle:Ausbildungstypen.csv', {
+    'Ausbildungstypnummer': 'legacy_id',
+    'Ausbildungsname': 'title',
+    'Sortierfolge': 'order',
+})
+
+existing_education_types = EducationType.objects.all().values_list('legacy_id', flat=True)
+
+for a in ausbildungstypen:
+    if a['legacy_id'] in existing_education_types:
+        continue
+
+    e = EducationType()
+
+    for k, v in a.items():
+        setattr(e, k, v)
+
+    print 'Ausbildungstyp', e.legacy_id
+    e.save()
+
+
+education_type_mapping = dict(EducationType.objects.all().values_list('legacy_id', 'id'))
+
+ausbildungen = Dataset('Tabelle:Ausbildungen.csv', {
+    'Ausbildungsnummer': 'legacy_id',
+    'Ref zur Person': 'member_legacy_id',
+    'Ausbildungstyp': 'education_type_legacy_id',
+    'Beginn': 'date'
+})
+
+existing_educations = Education.objects.all().values_list('legacy_id', flat=True)
+
+for a in ausbildungen:
+    if a['legacy_id'] in existing_educations:
+        continue
+
+    if not a['date']:
+        a['date'] = None
+
+    print 'Ausbildung', a['legacy_id']
+    try:
+        Education.objects.create(
+            member_id=member_mapping[a['member_legacy_id']],
+            type_id=education_type_mapping[a['education_type_legacy_id']],
+            date=a['date'],
+            legacy_id=a['legacy_id']
+        )
+    except:
+        continue
