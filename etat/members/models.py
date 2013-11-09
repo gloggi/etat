@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
@@ -73,13 +74,24 @@ class RoleType(BaseModel):
         return self.name
 
 
+class RoleManager(models.Manager):
+
+    def active(self):
+        return self.filter(Q(end__isnull=True) | Q(end__gte=now()))
+
+    def inactive(self):
+        return self.filter(end__lte=now())
+
+
 class Role(BaseModel):
     member = models.ForeignKey(Member, related_name='roles')
-    department = TreeForeignKey('departments.Department')
-    type = models.ForeignKey(RoleType)
+    department = TreeForeignKey('departments.Department', related_name='roles')
+    type = models.ForeignKey(RoleType, related_name='roles')
 
     start = models.DateField(_('start'), null=True, blank=True)
     end = models.DateField(_('end'), null=True, blank=True)
+
+    objects = RoleManager()
 
     class Meta:
         verbose_name = _('Role')

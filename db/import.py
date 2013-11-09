@@ -226,7 +226,7 @@ for p in stammdaten:
         p['birthday'] = None
 
     if p['additon']:
-        p['street'] += ' ' + p['additon']
+        p['street'] += ' ' + unicode(p['additon'])
 
     for k, v in p.items():
         setattr(m, k, v)
@@ -374,7 +374,6 @@ for a in ausbildungen:
     if not a['date']:
         a['date'] = None
 
-    print 'Ausbildung', a['legacy_id']
     try:
         Education.objects.create(
             member_id=member_mapping[a['member_legacy_id']],
@@ -382,5 +381,6 @@ for a in ausbildungen:
             date=a['date'],
             legacy_id=a['legacy_id']
         )
+        print 'Ausbildung', a['legacy_id']
     except:
         continue
