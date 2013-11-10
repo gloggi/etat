@@ -46,14 +46,12 @@
         <div class="col-md-4">
             <input type="search" class="search form-control" placeholder="{% trans 'search' %}" />
         </div>
-        <div class="col-md-2 col-md-offset-1 ">
-          <div class="gender-filter btn-group full" data-toggle="buttons">
-            <label class="btn btn-default half">
-              <input type="checkbox" name="m">
+        <div class="col-md-2 col-md-offset-1">
+          <div class="gender-filter btn-group">
+            <button class="btn btn-default" data-gender="m">
               <i class="fa fa-male"></i>
-            </label>
-            <label class="btn btn-default half">
-              <input type="checkbox" name="f">
+            </button>
+            <button class="btn btn-default" data-gender="f">
               <i class="fa fa-female"></i>
             </label>
           </div>

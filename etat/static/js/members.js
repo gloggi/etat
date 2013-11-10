@@ -93,7 +93,7 @@ Etat.Views.MemberView = Backbone.View.extend({
         "change #roles-filter"               : "loadMembers",
         "change #education-filter"           : "loadMembers",
         "change .status-filter input"        : "loadMembers",
-        "change .gender-filter"              : "filterByGender",
+        "click .gender-filter button"        : "filterByGender",
         "click .member-add"                  : "addMember",
         "click .member-detail"               : "showMember",
         "click .member-edit"                 : "editMember",
@@ -132,15 +132,17 @@ Etat.Views.MemberView = Backbone.View.extend({
     },
 
     // File male or females in member list
-    filterByGender: function() {
-        var show_m = $('input[name=m]').prop('checked'),
-            show_f = $('input[name=f]').prop('checked');
-        if (!show_m && !show_f) {
+    filterByGender: function(e) {
+        var gender = $(e.currentTarget).data('gender');
+
+        if (this.genderFilter === gender) {
+            this.genderFilter = undefined;
+            $(e.currentTarget).blur();
             this.memberList.filter();
         } else {
+            this.genderFilter = gender;
             this.memberList.filter(function(member) {
-                var gender = member.values().gender;
-                return gender == 'm' && show_m || gender == 'f' && show_f;
+                return member.values().gender == gender;
             });
         }
     },
