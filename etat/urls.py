@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(api.urls)),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^departments/', include('etat.departments.urls')),
     url(r'^members/', include('etat.members.urls')),
     url(r'', include('etat.dashboard.urls')),
 )
