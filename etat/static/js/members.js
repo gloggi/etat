@@ -62,6 +62,7 @@ var DepartmentTree = Backbone.View.extend({
         var withAllSubNodes = _.bind(this.withAllSubNodes, this);
         if (this.$el.tree('isNodeSelected', node)) {
             withAllSubNodes('removeFromSelection', node);
+            withAllSubNodes('closeNode', node);
         } else {
             withAllSubNodes('addToSelection', node);
             withAllSubNodes('openNode', node);
