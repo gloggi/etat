@@ -23,7 +23,7 @@ class DepartmentViewSet(ModelViewSet):
     def serialize_tree(self, queryset):
         for obj in queryset:
             data = self.get_serializer(obj).data
-            data['children'] = self.serialize_tree(obj.children.all())
+            data['children'] = self.serialize_tree(obj.get_children())
             yield data
 
     def list(self, request):
