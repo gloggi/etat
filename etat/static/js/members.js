@@ -106,6 +106,8 @@ Etat.Views.MemberView = Backbone.View.extend({
         this.memberList = new List('member-list', {
             valueNames: ['first_name', 'last_name', 'scout_name', 'roles_display']
         });
+
+        this.memberList.on('updated', _.bind(this.updateFilterBadges, this));
     },
 
     memberIdForEvent: function() {
@@ -203,6 +205,22 @@ Etat.Views.MemberView = Backbone.View.extend({
             });
             m.roles_display = roles.join(', ');
         });
+    },
+
+    updateFilterBadges: function() {
+        var list = this.memberList,
+            $total = this.$el.find('span.total'),
+            $slash = this.$el.find('span.slash'),
+            $filtered = this.$el.find('span.filtered');
+
+        $total.text(list.items.length);
+        if (list.visibleItems.length != list.items.length) {
+            $filtered.text(list.visibleItems.length);
+            $slash.show();
+        } else {
+            $filtered.text('');
+            $slash.hide();
+        }
     }
 });
 

@@ -77,6 +77,12 @@ ul {
     right: 5px;
 }
 
+.slash {
+    color: #999;
+    display: none;
+    padding: 0 2px;
+}
+
 .edit-buttons {
     text-align: right;
 }
