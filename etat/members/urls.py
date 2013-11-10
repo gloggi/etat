@@ -5,6 +5,10 @@ urlpatterns = patterns('etat.members.views',
         'member_list',
         name='member_list'
     ),
+    url(r'^data/$',
+        'member_data',
+        name='member_data'
+    ),
     url(r'^add/$',
         'member_add',
         name='member_add'

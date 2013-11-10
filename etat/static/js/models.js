@@ -16,7 +16,7 @@ Etat.Models.Member = Backbone.Model.extend({
 
 Etat.Collections.Members = Backbone.Collection.extend({
     model: Etat.Models.Member,
-    url: '/api/members/'
+    url: '/members/data/',
 });
 
 

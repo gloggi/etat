@@ -12,7 +12,7 @@ sys.path.append('..')
 
 from django.db.models import Count
 
-from etat.departments.models import Department, DepartmentType
+from etat.departments.models import Department
 from etat.members.models import Member, RoleType, Reachability
 
 relevant_departments = ('Glockenhof', 'APV Glockenhof', 'HV Glockenhof')

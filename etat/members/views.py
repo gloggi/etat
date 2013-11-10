@@ -1,11 +1,64 @@
+import json
+
 from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 
 from etat.utils.deletion import deletion_tree
 
-from .models import Member, RoleType, EducationType
+from .models import Member, Role, RoleType, EducationType
 from .forms import (MemberForm, AddressFormSet, RoleFormSet, EducationFormSet,
     ReachabilityFormSet)
+
+
+def member_data(request):
+    filter_args = []
+    departments = request.GET.getlist('departments[]')
+    roles = request.GET.getlist('roles[]')
+    education = request.GET.getlist('education[]')
+    status = request.GET.get('status')
+    gender = request.GET.get('gender')
+
+    if departments:
+        filter_args.append(Q(departments__id__in=departments))
+
+    if roles:
+        filter_args.append(Q(roles__type__id__in=roles))
+
+    if education:
+        filter_args.append(Q(educations__type__id__in=education))
+
+    if gender:
+        filter_args.append(Q(gender=gender))
+
+    if status == 'active':
+        filter_args.append(Q(roles__active=True))
+    elif status == 'inactive':
+        filter_args.append(Q(roles__active=False))
+    elif status == 'none':
+        filter_args.append(Q(roles__active=None))
+
+    members = Member.objects.filter(*filter_args).distinct()
+    member_data = members.values('id', 'scout_name', 'first_name', 'last_name')
+
+    member_ids = members.values_list('id', flat=True)
+    member_dict = dict((m['id'], m) for m in member_data)
+    roles = Role.objects.filter(member_id__in=member_ids)
+
+    for role in roles.values('member', 'department', 'type__name', 'active'):
+        m = member_dict[role['member']]
+        if 'roles' not in m:
+            m['roles'] = []
+        m['roles'].append({
+            'department': role['department'],
+            'type': role['type__name'],
+            'active': role['active'],
+        })
+
+    return HttpResponse(
+        json.dumps(list(member_data)),
+        mimetype='application/json'
+    )
 
 
 def member_list(request):

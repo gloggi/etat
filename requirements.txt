@@ -1,5 +1,6 @@
 django-bootstrap-form==3.0
 django-countries==1.5
+django-debug-toolbar==0.11.0
 django-filter==0.7
 django-mptt-admin==0.1.6
 django-mptt==0.6.0
@@ -19,3 +20,4 @@ raven==3.5.0
 six==1.4.1
 sorl-thumbnail==11.12
 South==0.8.2
+sqlparse==0.1.10

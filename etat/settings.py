@@ -50,6 +50,8 @@ STATICFILES_DIRS = (os.path.join(WEBAPP_DIR, 'static'),)
 
 ROOT_URLCONF = 'etat.urls'
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
@@ -84,6 +86,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
 INSTALLED_APPS = (
     'suit',
     'django.contrib.auth',
@@ -96,6 +108,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'raven.contrib.django.raven_compat',
+    'debug_toolbar',
+
     'south',
     'mptt',
     'django_mptt_admin',

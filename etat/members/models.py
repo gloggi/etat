@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
@@ -41,6 +42,8 @@ class Member(BaseModel):
 
     departments = models.ManyToManyField('departments.Department',
         through='Role', related_name='members')
+
+    user = models.OneToOneField(User, blank=True, null=True)
 
     class Meta:
         verbose_name = _('Member')
@@ -91,6 +94,9 @@ class Role(BaseModel):
     start = models.DateField(_('start'), null=True, blank=True)
     end = models.DateField(_('end'), null=True, blank=True)
 
+    # Daily calculated for speed improvement
+    active = models.BooleanField(editable=False)
+
     objects = RoleManager()
 
     class Meta:
@@ -106,10 +112,6 @@ class Role(BaseModel):
             'type': self.type,
             'department': self.department
         }
-
-    @property
-    def active(self):
-        return self.end is None or now().date() < self.end
 
 
 class Address(BaseModel):
