@@ -66,3 +66,6 @@ print "Update old phone preselection"
 for r in Reachability.objects.filter(type='phone', value__startswith='01'):
     r.value = r.value.replace('01/', '044 ').replace('01 ', '044 ')
     r.save()
+
+print "Fix the ladies"
+Member.objects.exclude(gender='m').update(gender='f')

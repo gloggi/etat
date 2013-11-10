@@ -232,7 +232,7 @@ for p in stammdaten:
         setattr(m, k, v)
 
     if not m.gender:
-        m.gender = 'w'
+        m.gender = 'f'
 
     print 'Person ', m.legacy_id
     m.save()

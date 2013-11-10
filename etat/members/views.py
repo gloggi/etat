@@ -39,7 +39,8 @@ def member_data(request):
         filter_args.append(Q(roles__active=None))
 
     members = Member.objects.filter(*filter_args).distinct()
-    member_data = members.values('id', 'scout_name', 'first_name', 'last_name')
+    member_values = ('id', 'scout_name', 'first_name', 'last_name', 'gender')
+    member_data = members.values(*member_values)
 
     member_ids = members.values_list('id', flat=True)
     member_dict = dict((m['id'], m) for m in member_data)

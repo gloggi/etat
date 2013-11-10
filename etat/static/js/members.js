@@ -104,7 +104,7 @@ Etat.Views.MemberView = Backbone.View.extend({
 
         // list.js table of all members
         this.memberList = new List('member-list', {
-            valueNames: ['first_name', 'last_name', 'scout_name']
+            valueNames: ['first_name', 'last_name', 'scout_name', 'roles_display']
         });
     },
 
