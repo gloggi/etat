@@ -8,14 +8,24 @@
 
 {% block content %}
 <div class="modal-body">
-    <table class="table">
+    <table class="table noborder">
         <tr>
+        {% thumbnail member.portrait "x120" as im %}
         <td>
-            {% thumbnail member.portrait "x120" as im %}
-                <img src="{{ im.url }}">
-            {% empty %}
-                <p>{% trans "No image" %}</p>
-            {% endthumbnail %}
+            <img src="{{ im.url }}">
+        </td>
+        {% endthumbnail %}
+        <td>
+            {% with member.address as adr %}
+                <address>
+                    {{ adr.street }}<br>
+                    {% if adr.addition %}{{ adr.addition }}<br>{% endif %}
+                    {{ adr.postal_code }} {{ adr.city }}<br>
+                    {% if adr.country != 'CH' %}
+                        {{ adr.get_country_display }}
+                    {% endif %}
+                </address>
+            {% endwith %}
         </td>
         <td>
             {% for reachability in member.reachabilities.all %}
@@ -28,18 +38,6 @@
                 </div>
             </div>
             {% endfor %}
-        </td>
-        <td>
-            {% with member.address as adr %}
-                <strong>{% trans "Address" %}</strong>
-                <p>{{ adr.street }}<br>
-                    {% if adr.addition %}{{ adr.addition }}<br>{% endif %}
-                    {{ adr.postal_code }} {{ adr.city }}<br>
-                    {% if adr.country != 'CH' %}
-                        {{ adr.get_country_display }}
-                    {% endif %}
-                </p>
-            {% endwith %}
         </td>
     </div>
 </div>

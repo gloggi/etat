@@ -213,6 +213,14 @@ table .form-group {
     margin: 0;
 }
 
+.btn.nofocus:focus {
+    outline: none;
+}
+
+.table.noborder td {
+    border: none;
+}
+
 .deleting {
     background-color: #f2dede;
 }

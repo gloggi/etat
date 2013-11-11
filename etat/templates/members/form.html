@@ -27,8 +27,10 @@
             <i class="fa fa-star"></i> {% trans "Education" %}</a></li>
       <li><a href="#notes" data-toggle="tab">
             <i class="fa fa-file-text"></i> {% trans "Notes" %}</a></li>
+      {% if member %}
       <li><a href="#account" data-toggle="tab">
             <i class="fa fa-shield"></i> {% trans "Account" %}</a></li>
+      {% endif %}
     </ul>
     <div class="tab-content member-tabs">
         {% form_header member_form %}
@@ -133,6 +135,7 @@
         <div class="tab-pane" id="notes">
             {{ member_form.notes|bootstrap }}
         </div>
+        {% if member %}
         <div class="tab-pane" id="account">
             {% if not member.user %}
               <p>{% trans "Member does not have an account yet." %}</p>
@@ -163,10 +166,9 @@
                     </a>
                   </dd>
               </dl>
-
-
             {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 <div class="modal-footer {% if member %} edit {% else %} add {% endif %}">

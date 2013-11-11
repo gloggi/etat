@@ -93,6 +93,8 @@ Etat.Views.MemberView = Backbone.View.extend({
         "change #roles-filter"               : "loadMembers",
         "change #education-filter"           : "loadMembers",
         "change .status-filter input"        : "loadMembers",
+        "keyup input[type=search]"           : "searchChanged",
+        "click .clear-search"                : "clearSearch",
         "click .gender-filter button"        : "filterByGender",
         "click .member-add"                  : "addMember",
         "click .member-detail"               : "showMember",
@@ -104,7 +106,8 @@ Etat.Views.MemberView = Backbone.View.extend({
 
         // list.js table of all members
         this.memberList = new List('member-list', {
-            valueNames: ['first_name', 'last_name', 'scout_name', 'roles_display']
+            valueNames: ['first_name', 'last_name', 'scout_name', 'roles_display'],
+            page: 1000
         });
 
         this.memberList.on('updated', _.bind(this.updateFilterBadges, this));
@@ -223,6 +226,23 @@ Etat.Views.MemberView = Backbone.View.extend({
             $filtered.text('');
             $slash.hide();
         }
+    },
+
+    searchChanged: function(e) {
+        $this = $(e.currentTarget);
+        $icon = $this.parent().find('i.fa');
+        if ($this.val() === '') {
+            $icon.addClass('fa-search');
+            $icon.removeClass('fa-times');
+        } else {
+            $icon.removeClass('fa-search');
+            $icon.addClass('fa-times');
+        }
+    },
+
+    clearSearch: function() {
+        $('input[type=search]').val('');
+        this.memberList.search();
     }
 });
 

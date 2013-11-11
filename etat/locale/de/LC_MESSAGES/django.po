@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-09 18:40+0200\n"
+"POT-Creation-Date: 2013-11-11 23:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settings.py:35
+#: settings.py:34
 msgid "German"
 msgstr "Deutsch"
 
-#: settings.py:36
+#: settings.py:35
 msgid "English"
 msgstr "Englisch"
 
-#: departments/models.py:8 departments/models.py:22 members/models.py:52
+#: departments/models.py:8 departments/models.py:22 members/models.py:69
 msgid "name"
 msgstr "Name"
 
@@ -42,23 +42,23 @@ msgstr "Einheitstyp"
 msgid "Department types"
 msgstr "Einheitstypen"
 
-#: departments/models.py:24 members/models.py:27
-msgid "notes"
-msgstr "Notizen"
-
-#: departments/models.py:25
-msgid "website"
-msgstr "Webseite"
-
-#: departments/models.py:26
-msgid "logo"
-msgstr "Logo"
-
-#: departments/models.py:30
+#: departments/models.py:27
 msgid "default role"
 msgstr "Standard Funktion"
 
-#: departments/models.py:37 templates/members/form.html:90
+#: departments/models.py:29 members/models.py:41
+msgid "notes"
+msgstr "Notizen"
+
+#: departments/models.py:30
+msgid "website"
+msgstr "Webseite"
+
+#: departments/models.py:31
+msgid "logo"
+msgstr "Logo"
+
+#: departments/models.py:37 templates/members/form.html:107
 msgid "Department"
 msgstr "Einheit"
 
@@ -66,197 +66,245 @@ msgstr "Einheit"
 msgid "Departments"
 msgstr "Einheiten"
 
-#: members/forms.py:49
+#: members/forms.py:52
 #, python-format
 msgid "%(parent)s must have at least one %(child)s!"
 msgstr "%(parent)s muss mindestens eine %(child)s haben!"
 
-#: members/models.py:12
+#: members/models.py:26
 msgid "female"
 msgstr "weiblich"
 
-#: members/models.py:13
+#: members/models.py:27
 msgid "male"
 msgstr "männlich"
 
-#: members/models.py:16 templates/members/list.html:91
+#: members/models.py:30 templates/members/list.html:78
 msgid "scout name"
 msgstr "Pfadiname"
 
-#: members/models.py:17 templates/members/list.html:92
+#: members/models.py:31 templates/members/list.html:79
 msgid "first name"
 msgstr "Vorname"
 
-#: members/models.py:18 templates/members/list.html:93
+#: members/models.py:32 templates/members/list.html:80
 msgid "last name"
 msgstr "Nachname"
 
-#: members/models.py:20
+#: members/models.py:34
 msgid "portrait"
 msgstr "Portrait"
 
-#: members/models.py:23
+#: members/models.py:37
 msgid "gender"
 msgstr "Geschlecht"
 
-#: members/models.py:25 templates/members/view.html:20
+#: members/models.py:39
 msgid "birthday"
 msgstr "Geburtstag"
 
-#: members/models.py:33
+#: members/models.py:50
 msgid "Member"
 msgstr "Mitglied"
 
-#: members/models.py:34 templates/base.html:40
+#: members/models.py:51 templates/base.html:46
 msgid "Members"
 msgstr "Mitglieder"
 
-#: members/models.py:56
+#: members/models.py:73
 msgid "Role type"
 msgstr "Funktionstyp"
 
-#: members/models.py:57
+#: members/models.py:74
 msgid "Role types"
 msgstr "Funktionstypen"
 
-#: members/models.py:69 templates/members/form.html:92
+#: members/models.py:95 templates/members/form.html:109
 msgid "start"
 msgstr "Start"
 
-#: members/models.py:70 templates/members/form.html:93
+#: members/models.py:96 templates/members/form.html:110
 msgid "end"
 msgstr "Ende"
 
-#: members/models.py:73 templates/members/form.html:91
-#: templates/members/form.html.py:157 templates/members/list.html:94
+#: members/models.py:104 templates/members/form.html:108
+#: templates/members/list.html:81
 msgid "Role"
 msgstr "Funktion"
 
-#: members/models.py:74 templates/members/form.html:25
-#: templates/members/list.html:40
+#: members/models.py:105 templates/members/form.html:25
+#: templates/members/list.html:16
 msgid "Roles"
 msgstr "Funktionen"
 
-#: members/models.py:78
+#: members/models.py:109
 msgid "Start data has to be before end date!"
 msgstr "Start Datum muss vor dem Ende sein!"
 
-#: members/models.py:81
+#: members/models.py:112
 #, python-format
 msgid "%(type)s at %(department)s"
 msgstr "%(type)s bei %(department)s"
 
-#: members/models.py:94
-msgid "main address"
-msgstr "Hauptadresse"
-
-#: members/models.py:96
+#: members/models.py:126 templates/members/form.html:72
 msgid "street"
 msgstr "Strasse"
 
-#: members/models.py:97
-msgid "Postal Code"
+#: members/models.py:127 templates/members/form.html:73
+msgid "post code"
 msgstr "PLZ"
 
-#: members/models.py:98
+#: members/models.py:128 templates/members/form.html:74
 msgid "city"
 msgstr "Ort"
 
-#: members/models.py:99
+#: members/models.py:129 templates/members/form.html:75
 msgid "country"
 msgstr "Land"
 
-#: members/models.py:102 templates/members/form.html:153
-#: templates/members/view.html:29
+#: members/models.py:130
+msgid "main address"
+msgstr "Hauptadresse"
+
+#: members/models.py:133
 msgid "Address"
 msgstr "Adresse"
 
-#: members/models.py:103 templates/members/form.html:23
+#: members/models.py:134
 msgid "Addresses"
 msgstr "Adressen"
 
-#: members/models.py:117 templates/members/view.html:22
+#: members/models.py:148
 msgid "Email"
 msgstr "Email"
 
-#: members/models.py:118
-#, fuzzy
+#: members/models.py:149
 msgid "Phone"
 msgstr "Telefon"
 
-#: members/models.py:119
+#: members/models.py:150
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
-#: members/models.py:120
+#: members/models.py:151
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
-#: members/models.py:121
+#: members/models.py:152
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
-#: members/models.py:125
+#: members/models.py:156
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
-#: members/models.py:126
+#: members/models.py:157
 msgid "Work"
-msgstr ""
+msgstr "Arbeit"
 
-#: members/models.py:127
+#: members/models.py:158
 msgid "Scout"
-msgstr ""
+msgstr "Pfadi"
 
-#: members/models.py:128
+#: members/models.py:159
 msgid "Other"
-msgstr ""
+msgstr "Andere"
 
-#: members/models.py:133
-#, fuzzy
+#: members/models.py:164
 msgid "type"
-msgstr "Funktionstyp"
+msgstr "Typ"
 
-#: members/models.py:134
+#: members/models.py:165
 msgid "kind"
-msgstr ""
+msgstr "Art"
 
-#: members/models.py:137
+#: members/models.py:168
 msgid "value"
-msgstr ""
+msgstr "Wet"
 
-#: members/models.py:140 templates/members/form.html:27
-#: templates/members/form.html.py:161
+#: members/models.py:171
 msgid "Reachability"
-msgstr ""
+msgstr "Erreichbarkeit"
 
-#: members/models.py:141
+#: members/models.py:172
 msgid "Reachabilities"
-msgstr ""
+msgstr "Erreichbarkeiten"
 
-#: templates/base.html:34
+#: members/models.py:190
+msgid "title"
+msgstr "Titel"
+
+#: members/models.py:194
+msgid "Education type"
+msgstr "Ausbildungstyp"
+
+#: members/models.py:195
+msgid "Education types"
+msgstr "Ausbildungstypen"
+
+#: members/models.py:206
+msgid "date"
+msgstr "Datum"
+
+#: members/models.py:209 templates/members/form.html:27
+#: templates/members/list.html:34
+msgid "Education"
+msgstr "Ausbildung"
+
+#: members/models.py:210
+msgid "Educations"
+msgstr "Ausbildungen"
+
+#: templates/base.html:38
 msgid "ETAT"
 msgstr "ETAT"
 
-#: templates/base.html:49
+#: templates/base.html:55
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/base.html:62
+#: templates/base.html:68
 msgid "Log out"
 msgstr "Abmelden"
+
+#: templates/confirm_delete.html:12
+#, python-format
+msgid ""
+"\n"
+"            Are you sure you want to delete %(object)s?\n"
+"        "
+msgstr ""
+"\n"
+"            Bist du sicher, dass du %(object)s löschen willst?\n"
+"        "
+
+#: templates/confirm_delete.html:18 templates/members/delete.html:19
+msgid "No"
+msgstr "Nein"
+
+#: templates/confirm_delete.html:20 templates/members/delete.html:21
+msgid "YES!"
+msgstr "JA!"
+
+#: templates/django_mptt_admin/change_list.html:45
+msgid "List view"
+msgstr "Listenansicht"
+
+#: templates/django_mptt_admin/grid_view.html:7
+msgid "Tree view"
+msgstr "Baumansicht"
+
+#: templates/members/account_form.html:5
+msgid "Account for"
+msgstr "Account für"
+
+#: templates/members/account_form.html:17 templates/members/form.html:180
+msgid "Save"
+msgstr "Speichern"
 
 #: templates/members/delete.html:14
 msgid "The follow data will be deleted constantly:"
 msgstr "Die folgende Daten werden für immer gelöscht:"
-
-#: templates/members/delete.html:19
-msgid "No"
-msgstr "Nein"
-
-#: templates/members/delete.html:21
-msgid "YES!"
-msgstr "JA!"
 
 #: templates/members/form.html:9
 msgid "Add new member"
@@ -266,64 +314,94 @@ msgstr "Neues Mitglied hinzufügen"
 msgid "Person"
 msgstr "Person"
 
+#: templates/members/form.html:23
+msgid "Contact"
+msgstr "Kontakt"
+
 #: templates/members/form.html:29
 msgid "Notes"
 msgstr "Notizen"
 
-#: templates/members/form.html:116
+#: templates/members/form.html:32
+msgid "Account"
+msgstr ""
+
+#: templates/members/form.html:76
+msgid "main"
+msgstr "Haupt"
+
+#: templates/members/form.html:91 templates/members/form.html.py:124
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
-#: templates/members/form.html:117
+#: templates/members/form.html:92
 msgid "Kind"
-msgstr ""
+msgstr "Art"
 
-#: templates/members/form.html:118
+#: templates/members/form.html:93
 msgid "Value"
-msgstr ""
+msgstr "Wert"
 
-#: templates/members/form.html:147
+#: templates/members/form.html:125
+msgid "Date"
+msgstr "Datum"
+
+#: templates/members/form.html:141
+msgid "Member does not have an account yet."
+msgstr "Mitglied hat noch keinen Account."
+
+#: templates/members/form.html:145
+msgid "Create account"
+msgstr "Account erstellen"
+
+#: templates/members/form.html:149
+msgid "username"
+msgstr "Benutzername"
+
+#: templates/members/form.html:151
+msgid "last login"
+msgstr "Letztes Login"
+
+#: templates/members/form.html:153
+msgid "created"
+msgstr "Erstellt"
+
+#: templates/members/form.html:160
+msgid "Change password"
+msgstr "Passwort ändern"
+
+#: templates/members/form.html:165
+msgid "Delete account"
+msgstr "Account löschen"
+
+#: templates/members/form.html:178
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/members/form.html:165
-msgid "Save"
-msgstr "Speichern"
-
-#: templates/members/list.html:33
-msgid "Deep selector"
-msgstr "Alleswähler"
-
-#: templates/members/list.html:42
+#: templates/members/list.html:17 templates/members/list.html.py:35
 msgid "All"
 msgstr "Alle"
 
-#: templates/members/list.html:51
+#: templates/members/list.html:26
 msgid "Active"
 msgstr "Aktive"
 
-#: templates/members/list.html:55
+#: templates/members/list.html:30
 msgid "Inactive"
 msgstr "Inaktive"
 
-#: templates/members/list.html:65
+#: templates/members/list.html:48
 msgid "search"
 msgstr "suchen"
 
-#: templates/members/list.html:82
+#: templates/members/list.html:69
 msgid "New"
 msgstr "Neu"
 
-#: templates/members/view.html:16
-msgid "No image"
-msgstr "Kein Bild"
+#: templates/registration/login.html:15
+msgid "etat login"
+msgstr ""
 
-#: templates/members/view.html:24
-msgid "Mobile"
-msgstr "Mobile"
-
-msgid "email"
-msgstr "Email"
-
-msgid "mobile"
-msgstr "Mobile"
+#: templates/registration/login.html:27
+msgid "Login"
+msgstr "Anmelden"

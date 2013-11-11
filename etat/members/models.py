@@ -114,6 +114,10 @@ class Role(BaseModel):
             'department': self.department
         }
 
+    def save(self, *args, **kwargs):
+        self.active = not self.end or self.end >= now().date()
+        super(Role, self).save(*args, **kwargs)
+
 
 class Address(BaseModel):
 
@@ -171,15 +175,15 @@ class Reachability(BaseModel):
         return u'%s %s' % (self.type, self.value)
 
     icons = {
-        'email': 'icon-envelope',
-        'phone': 'icon-phone',
-        'skype': 'icon-skype',
-        'facebook': 'icon-facebook',
-        'twitter': 'icon-twitter',
+        'email': 'fa fa-envelope',
+        'phone': 'fa fa-phone',
+        'skype': 'fa fa-skype',
+        'facebook': 'fa fa-facebook',
+        'twitter': 'fa fa-twitter',
     }
 
     def icon_class(self):
-        return self.icons.get(self.type, 'icon-envelope')
+        return self.icons.get(self.type)
 
 
 class EducationType(BaseModel):
