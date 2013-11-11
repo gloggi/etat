@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Department.legacy_id'
         db.add_column(u'departments_department', 'legacy_id',
-                      self.gf('django.db.models.fields.CharField')(db_index=True, default='', unique=True, max_length=100, blank=True),
+                      self.gf('django.db.models.fields.CharField')(default='', unique=True, max_length=100, blank=True),
                       keep_default=False)
 
 
@@ -24,7 +24,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Department'},
             'default_role': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': u"orm['members.RoleType']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'legacy_id': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'unique': 'True', 'max_length': '100', 'blank': 'True'}),
+            'legacy_id': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
             u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
@@ -45,9 +45,12 @@ class Migration(SchemaMigration):
         },
         u'members.roletype': {
             'Meta': {'ordering': "('order',)", 'object_name': 'RoleType'},
+            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'legacy_id': ('django.db.models.fields.PositiveIntegerField', [], {'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'order': ('django.db.models.fields.PositiveIntegerField', [], {})
+            'order': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         }
     }
 

@@ -26,11 +26,7 @@ print "Removing all departments without active members"
 for d in Department.objects.all():
     if d.roles.active().count() == 0:
         d.delete()
-
-print "Removing obsolete role types"
-for r in RoleType.objects.all():
-    if r.roles.count() == 0:
-        r.delete()
+Department.objects.rebuild()
 
 print "Removing members without any roles"
 for m in Member.objects.annotate(role_count=Count('roles')):
