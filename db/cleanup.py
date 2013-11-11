@@ -58,6 +58,13 @@ for r in Reachability.objects.filter(type='phone', value__startswith='07'):
         r.kind = 'private'
         r.save()
 
+print "Remove duplicate phone numbers"
+# for m in Member.objects.all():
+#     if m.reachabilities.filter(type='phone').count() == 2:
+#         p1, p2 = m.reachabilities.filter(type='phone')
+#         if p1.value == p2.value:
+#             p2.delete()
+
 print "Update old phone preselection"
 for r in Reachability.objects.filter(type='phone', value__startswith='01'):
     r.value = r.value.replace('01/', '044 ').replace('01 ', '044 ')
