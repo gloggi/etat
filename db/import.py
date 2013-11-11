@@ -61,114 +61,118 @@ GRUPPE, __ = DepartmentType.objects.get_or_create(name='Gruppe', order=4)
 
 existing_departments = Department.objects.all().values_list('legacy_id', flat=True)
 
-korps = Dataset('Tabelle:Korps.csv', {
-    'Korpsnummer': 'legacy_id',
-    'Korpsname': 'name',
-})
 
-for k in korps:
-    k['legacy_id'] = 'K%s' % k['legacy_id']
+with Department.objects.delay_mptt_updates():
+    korps = Dataset('Tabelle:Korps.csv', {
+        'Korpsnummer': 'legacy_id',
+        'Korpsname': 'name',
+    })
 
-    if k['legacy_id'] in existing_departments:
-        continue
+    for k in korps:
+        k['legacy_id'] = 'K%s' % k['legacy_id']
 
-    d = Department()
-    for key, value in k.items():
-        setattr(d, key, value)
+        if k['legacy_id'] in existing_departments:
+            continue
 
-    d.type = KORPS
+        d = Department()
+        for key, value in k.items():
+            setattr(d, key, value)
 
-    print d.legacy_id
-    d.save()
+        d.type = KORPS
 
-
-abteilungen = Dataset('Tabelle:Abteilungen.csv', {
-    'Abteilungsnummer': 'legacy_id',
-    'Korpsnummer': 'parent_legacy_id',
-    'Abteilungsname': 'name',
-    'Homepage': 'website',
-})
-
-for a in abteilungen:
-    a['legacy_id'] = 'A%s' % a['legacy_id']
-
-    if a['legacy_id'] in existing_departments:
-        continue
-
-    d = Department()
-
-    try:
-        parent_id = 'K%s' % a['parent_legacy_id']
-        d.parent = Department.objects.get(legacy_id=parent_id)
-    except Department.DoesNotExist:
-        continue
-
-    for key, value in a.items():
-        setattr(d, key, value)
-
-    d.type = ABTEILUNG
-
-    print d.legacy_id
-    d.save()
+        print d.legacy_id
+        d.save()
 
 
-einheiten = Dataset('Tabelle:Einheiten.csv', {
-    'Einheitennummer': 'legacy_id',
-    'Einheitenname': 'name',
-    'Abteilungsnummer': 'parent_legacy_id',
-})
+    abteilungen = Dataset('Tabelle:Abteilungen.csv', {
+        'Abteilungsnummer': 'legacy_id',
+        'Korpsnummer': 'parent_legacy_id',
+        'Abteilungsname': 'name',
+        'Homepage': 'website',
+    })
 
-for e in einheiten:
-    e['legacy_id'] = 'E%s' % e['legacy_id']
+    dep_mapping = dict(Department.objects.all().values_list('legacy_id', 'id'))
 
-    if e['legacy_id'] in existing_departments:
-        continue
+    for a in abteilungen:
+        a['legacy_id'] = 'A%s' % a['legacy_id']
 
-    d = Department()
+        if a['legacy_id'] in existing_departments:
+            continue
 
-    try:
-        parent_id = 'A%s' % e['parent_legacy_id']
-        d.parent = Department.objects.get(legacy_id=parent_id)
-    except Department.DoesNotExist:
-        continue
+        d = Department()
 
-    for key, value in e.items():
-        setattr(d, key, value)
+        try:
+            d.parent_id = dep_mapping['K%s' % a['parent_legacy_id']]
+        except KeyError:
+            continue
 
-    d.type = EINHEIT
+        for key, value in a.items():
+            setattr(d, key, value)
 
-    print d.legacy_id
-    d.save()
+        d.type = ABTEILUNG
+
+        print d.legacy_id
+        d.save()
 
 
-gruppen = Dataset('Tabelle:Gruppen.csv', {
-    'Gruppennummer': 'legacy_id',
-    'Gruppenname': 'name',
-    'Einheitennummer': 'parent_legacy_id'
-})
+    einheiten = Dataset('Tabelle:Einheiten.csv', {
+        'Einheitennummer': 'legacy_id',
+        'Einheitenname': 'name',
+        'Abteilungsnummer': 'parent_legacy_id',
+    })
 
-for g in gruppen:
-    g['legacy_id'] = 'G%s' % g['legacy_id']
+    dep_mapping = dict(Department.objects.all().values_list('legacy_id', 'id'))
 
-    if g['legacy_id'] in existing_departments:
-        continue
+    for e in einheiten:
+        e['legacy_id'] = 'E%s' % e['legacy_id']
 
-    d = Department()
+        if e['legacy_id'] in existing_departments:
+            continue
 
-    try:
-        parent_id = 'E%s' % g['parent_legacy_id']
-        d.parent = Department.objects.get(legacy_id=parent_id)
-    except Department.DoesNotExist:
-        continue
+        d = Department()
 
-    for key, value in g.items():
-        setattr(d, key, value)
+        try:
+            d.parent_id = dep_mapping['A%s' % e['parent_legacy_id']]
+        except KeyError:
+            continue
 
-    d.type = GRUPPE
+        for key, value in e.items():
+            setattr(d, key, value)
 
-    print d.legacy_id
-    d.save()
+        d.type = EINHEIT
 
+        print d.legacy_id
+        d.save()
+
+
+    gruppen = Dataset('Tabelle:Gruppen.csv', {
+        'Gruppennummer': 'legacy_id',
+        'Gruppenname': 'name',
+        'Einheitennummer': 'parent_legacy_id'
+    })
+
+    dep_mapping = dict(Department.objects.all().values_list('legacy_id', 'id'))
+
+    for g in gruppen:
+        g['legacy_id'] = 'G%s' % g['legacy_id']
+
+        if g['legacy_id'] in existing_departments:
+            continue
+
+        d = Department()
+
+        try:
+            d.parent_id = dep_mapping['E%s' % g['parent_legacy_id']]
+        except KeyError:
+            continue
+
+        for key, value in g.items():
+            setattr(d, key, value)
+
+        d.type = GRUPPE
+
+        print d.legacy_id
+        d.save()
 
 # Member import
 
