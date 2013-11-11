@@ -131,11 +131,6 @@ ul {
     width: 100%;
 }
 
-/*
-body {
-    padding-top: 60px;
-}
-*/
 
 /* design stuff */
 
@@ -176,12 +171,6 @@ body {
 
 /* bootstrap theming */
 
-@media (max-width: 979px) {
-    .navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
-        padding: 0 5px;
-    }
-}
-
 .navbar {
     min-height: 40px;
 }
@@ -192,6 +181,19 @@ body {
     line-height: 30px;
     font-family: Arvo;
     font-weight: bold;
+}
+
+@media (max-width: 979px) {
+    .navbar-fixed-top .navbar-brand {
+        padding-top: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-fixed-top .navbar-brand {
+        padding-top: 10px;
+        margin-left: 10px;
+    }
 }
 
 .navbar-nav > li > a {

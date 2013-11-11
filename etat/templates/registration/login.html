@@ -1,0 +1,32 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>etat login</title>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}bower/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/login.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <form method="post" class="form-signin">
+        <h2 class="form-signin-heading text-center">{% trans "etat login" %}</h2>
+        <input type="hidden" name="next" value="/" />
+
+        {% csrf_token %}
+
+        {% for non_field_error in form.non_field_errors %}
+            <div class="alert alert-danger">{{ non_field_error }}</div>
+        {% endfor %}
+
+        <input type="text" name="username" class="form-control" placeholder="username" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+          {% trans "Login" %}
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

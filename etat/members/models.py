@@ -43,7 +43,8 @@ class Member(BaseModel):
     departments = models.ManyToManyField('departments.Department',
         through='Role', related_name='members')
 
-    user = models.OneToOneField(User, blank=True, null=True)
+    user = models.OneToOneField(User, blank=True, null=True,
+        on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = _('Member')

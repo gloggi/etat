@@ -1,14 +1,22 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 
 from etat.utils.deletion import deletion_tree
 
 from .models import Member, Role, RoleType, EducationType
 from .forms import (MemberForm, AddressFormSet, RoleFormSet, EducationFormSet,
     ReachabilityFormSet)
+
+def member_list(request):
+    return render(request, 'members/list.html', {
+        'roles': RoleType.objects.all(),
+        'educations': EducationType.objects.all(),
+    })
 
 
 def member_data(request):
@@ -60,14 +68,6 @@ def member_data(request):
         json.dumps(list(member_data)),
         mimetype='application/json'
     )
-
-
-def member_list(request):
-    return render(request, 'members/list.html', {
-        'roles': RoleType.objects.all(),
-        'educations': EducationType.objects.all(),
-    })
-
 
 def member_view(request, m_id):
     member = get_object_or_404(Member, pk=m_id)
@@ -153,4 +153,67 @@ def member_delete(request, m_id):
     return render(request, 'members/delete.html', {
         'member': member,
         'to_delete': deletion_tree(member),
+    })
+
+
+def account_create(request, m_id):
+    member = get_object_or_404(Member, pk=m_id)
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.first_name = member.first_name
+            user.last_name = member.last_name
+            try:
+                user.email = member.reachabilities.filter(type='email')[0].value
+            except:
+                pass
+            user.save()
+            member.user = user
+            member.save()
+            return redirect('member_edit', m_id=m_id)
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'members/account_form.html', {
+        'member': member,
+        'form': form
+    })
+
+
+def account_change_password(request, m_id):
+    member = get_object_or_404(Member, pk=m_id)
+    try:
+        user = member.user
+    except:
+        raise Http404
+
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect('member_edit', m_id=m_id)
+    else:
+        form = SetPasswordForm(user)
+
+    return render(request, 'members/account_form.html', {
+        'member': member,
+        'form': form
+    })
+
+
+def account_delete(request, m_id):
+    member = get_object_or_404(Member, pk=m_id)
+    try:
+        user = member.user
+    except:
+        raise Http404
+
+    if request.method == 'POST':
+        user.delete()
+        return redirect('member_edit', m_id=m_id)
+
+    return render(request, 'confirm_delete.html', {
+        'object': user
     })

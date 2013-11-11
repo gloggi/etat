@@ -1,0 +1,23 @@
+{% extends "modal.html" %}
+{% load i18n bootstrap %}
+
+{% block title %}
+    Really delete {{ object }}?
+{% endblock %}
+
+{% block content %}
+<form action="{{ request.path }}" method="post">
+    {% csrf_token %}
+    <div class="modal-body">
+        {% blocktrans %}
+            Are you sure you want to delete {{ object }}?
+        {% endblocktrans %}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning pull-left" data-dismiss="modal">
+            {% trans "No" %}
+        </button>
+        <input type="submit" class="btn btn-danger" value="{% trans 'YES!' %}">
+    </div>
+</form>
+{% endblock %}

@@ -25,4 +25,16 @@ urlpatterns = patterns('etat.members.views',
         'member_delete',
         name='member_delete'
     ),
+    url(r'^(?P<m_id>\d+)/acount/create/$',
+        'account_create',
+        name='account_create'
+    ),
+    url(r'^(?P<m_id>\d+)/acount/change_password/$',
+        'account_change_password',
+        name='account_change_password'
+    ),
+    url(r'^(?P<m_id>\d+)/acount/delete/$',
+        'account_delete',
+        name='account_delete'
+    )
 )

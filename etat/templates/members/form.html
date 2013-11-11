@@ -27,6 +27,8 @@
             <i class="fa fa-star"></i> {% trans "Education" %}</a></li>
       <li><a href="#notes" data-toggle="tab">
             <i class="fa fa-file-text"></i> {% trans "Notes" %}</a></li>
+      <li><a href="#account" data-toggle="tab">
+            <i class="fa fa-shield"></i> {% trans "Account" %}</a></li>
     </ul>
     <div class="tab-content member-tabs">
         {% form_header member_form %}
@@ -130,6 +132,40 @@
         </div>
         <div class="tab-pane" id="notes">
             {{ member_form.notes|bootstrap }}
+        </div>
+        <div class="tab-pane" id="account">
+            {% if not member.user %}
+              <p>{% trans "Member does not have an account yet." %}</p>
+
+              {% url 'account_create' m_id=member.id as create_url %}
+              <a href="{{ create_url }}" class="btn btn-success modal_link">
+                {% trans "Create account" %}
+              </a>
+            {% else %}
+              <dl class="dl-horizontal">
+                <dt>{% trans "username" %}</dt>
+                  <dd>{{ member.user.username }}</dd>
+                <dt>{% trans "last login" %}</dt>
+                  <dd>{{ member.user.last_login }}</dd>
+                <dt>{% trans "created" %}</dt>
+                  <dd>{{ member.user.date_joined }}</dd>
+                <dt></dt>
+                  <dd>
+                    <br><br>
+                    {% url 'account_change_password' m_id=member.id as change_password_url %}
+                    <a href="{{ change_password_url }}" class="btn btn-warning modal_link">
+                      {% trans "Change password" %}
+                    </a>
+
+                    {% url 'account_delete' m_id=member.id as delete_url %}
+                    <a href="{{ delete_url }}" class="btn btn-danger modal_link">
+                      {% trans "Delete account" %}
+                    </a>
+                  </dd>
+              </dl>
+
+
+            {% endif %}
         </div>
     </div>
 </div>

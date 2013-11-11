@@ -1,0 +1,20 @@
+{% extends "modal.html" %}
+{% load i18n bootstrap partials %}
+
+{% block title %}
+    {% trans "Account for" %} {{ member }}
+    {% if member.scout_name %}v/o {{ member.scout_name}}{% endif %}
+{% endblock %}
+
+{% block content %}
+<form action="{{ request.path }}" method="post">
+    <div class="modal-body">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+    </form>
+
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans 'Save' %}">
+    </div>
+</form>
+{% endblock %}
