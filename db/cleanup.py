@@ -17,58 +17,63 @@ from etat.members.models import Member, RoleType, Reachability
 
 relevant_departments = ('Glockenhof', 'APV Glockenhof', 'HV Glockenhof')
 
-print "Removing all root departments except of ", relevant_departments
+print u"Entferne alle Abteilungen ausser ", relevant_departments
 for d in Department.objects.root_nodes():
     if d.name not in relevant_departments:
         d.delete()
 
-print "Removing all departments without active members"
+print u"Entferne alle inaktiven Einheiten"
 for d in Department.objects.all():
     if d.roles.active().count() == 0:
         d.delete()
 Department.objects.rebuild()
 
-print "Removing members without any roles"
+print u"Entferne Personen ohne jegliche Funktionen"
 for m in Member.objects.annotate(role_count=Count('roles')):
     if m.role_count == 0:
         m.delete()
 
-print "Move Abteilunsgsstäbe"
+print u"Abteilunsgsstaebe zu Abteilungen migrieren"
 for d in Department.objects.filter(name="Abteilungsstab"):
     for r in d.roles.all():
         r.department = d.parent
         r.save()
     d.delete()
 
-print "Move Korpsstam"
+print u"Korpsteam zum Korps migrieren"
 for d in Department.objects.filter(name__in=("Korpsstab", "Korpsteam")):
     for r in d.roles.all():
         r.department = d.parent
         r.save()
     d.delete()
 
-print "No members in Korpsstab"
+print "Gruppen der Stufe ihrer Einheit zuweisen"
+for d in Department.objects.filter(type__name="Gruppe", step__isnull=True):
+    d.step = d.parent.step
+    d.save()
+
+print u"Keine normalen Mitglieder im Korpsstab"
 for r in Department.objects.get(name="Glockenhof").roles.all():
     if r.type.name == "Mitglied / TeilnehmerIn":
         r.delete()
 
-print "Make mobile phone numbers private"
+print u"Handy nummern als privat markieren"
 for r in Reachability.objects.filter(type='phone', value__startswith='07'):
     if not r.kind == 'private':
         r.kind = 'private'
         r.save()
 
-print "Remove duplicate phone numbers"
-# for m in Member.objects.all():
-#     if m.reachabilities.filter(type='phone').count() == 2:
-#         p1, p2 = m.reachabilities.filter(type='phone')
-#         if p1.value == p2.value:
-#             p2.delete()
-
-print "Update old phone preselection"
+print u"Aktualisiere alte Vorwahl von Zuerich"
 for r in Reachability.objects.filter(type='phone', value__startswith='01'):
     r.value = r.value.replace('01/', '044 ').replace('01 ', '044 ')
     r.save()
 
-print "Fix the ladies"
+print u"Maedels korrigieren"
 Member.objects.exclude(gender='m').update(gender='f')
+
+print u"Setze Stufen fuer Funktionstypen"
+RoleType.objects.filter(name="FSL").update(step=0)
+RoleType.objects.filter(name="WBSL").update(step=1)
+RoleType.objects.filter(name="PSL").update(step=2)
+RoleType.objects.filter(name="PioSL").update(step=3)
+RoleType.objects.filter(name="RSL").update(step=4)

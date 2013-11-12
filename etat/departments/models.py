@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
+from etat.commons import STEPS
+
 
 class DepartmentType(models.Model):
 
@@ -20,13 +22,6 @@ class DepartmentType(models.Model):
 
 
 class Department(MPTTModel):
-    STEPS = (
-        (0, u'Fünklistufe'),
-        (1, u'Wolfsstufe'),
-        (2, u'Pfadistufe'),
-        (3, u'Piostufe'),
-        (4, u'Roverstufe'),
-    )
 
     name = models.CharField(_('name'), max_length=100)
     short_name = models.CharField(_('short name'), max_length=10, blank=True)

@@ -10,7 +10,9 @@ from django_countries import CountryField
 
 from sorl.thumbnail import ImageField
 
+from etat.commons import STEPS
 from etat.departments.models import Department
+
 
 class BaseModel(models.Model):
 
@@ -80,6 +82,7 @@ class Member(BaseModel):
 class RoleType(BaseModel):
 
     name = models.CharField(_('name'), max_length=100)
+    step = models.IntegerField(_('steps'), choices=STEPS, blank=True, null=True)
     order = models.PositiveIntegerField()
 
     class Meta:
