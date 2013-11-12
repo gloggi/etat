@@ -14,7 +14,6 @@ def serialize_tree(queryset):
         dep = {
             'id': obj.id,
             'label': obj.name,
-            'default_role': obj.default_role_id,
         }
         if obj._cached_children:
             dep['children'] = serialize_tree(obj._cached_children)

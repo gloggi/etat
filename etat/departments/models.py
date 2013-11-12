@@ -23,15 +23,13 @@ class Department(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True,
         related_name='children')
     type = models.ForeignKey(DepartmentType, blank=True, null=True)
-    default_role = models.ForeignKey('members.RoleType', null=True, blank=True,
-        verbose_name=_('default role'), related_name='+')
-
     notes = models.TextField(_('notes'), blank=True)
     website = models.URLField(_('website'), null=True, blank=True)
     logo = models.ImageField(_('logo'), upload_to='departments',
         null=True, blank=True)
 
-    legacy_id = models.CharField(max_length=100, unique=True, blank=True)
+    legacy_id = models.CharField(max_length=100, unique=True, blank=True,
+        editable=False)
 
     class Meta:
         verbose_name = _('Department')

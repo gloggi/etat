@@ -18,7 +18,6 @@ class DepartmentAdminForm(forms.ModelForm):
         widgets = {
             'parent': SuitSelect,
             'type': SuitSelect,
-            'default_role': SuitSelect,
         }
 
 
