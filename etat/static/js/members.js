@@ -114,7 +114,7 @@ Etat.Views.MemberView = Backbone.View.extend({
     },
 
     memberIdForEvent: function(event) {
-        return $(event.target).parents('tr').find('td.id').text();
+        return $(event.target).parents('tr').attr('id');
     },
 
     // Launch modal to create a new member
@@ -191,6 +191,19 @@ Etat.Views.MemberView = Backbone.View.extend({
             this.memberList.add(members);
             this.memberList.search();
             this.memberList.sort('id', { asc: true });
+
+            // Set ids to table rows
+            $list = $('#member-list .list');
+            $list.find('tr').each(function(i, e) {
+                var id = $(this).find('td.id').text();
+                this.id = id;
+            });
+
+            // Hide buttons if member is not allowed to edit selected department
+            var selected = this.departmentTree.$el.tree('getSelectedNode').id;
+            if (_.indexOf(EDITABLE_DEPARTMENTS, selected) === -1) {
+                $list.find('button.member-edit').hide();
+            }
         }
     },
 

@@ -4,6 +4,9 @@
 {% block javascript %}
   <script src="{{ STATIC_URL }}js/members.js"></script>
   <script src="{{ STATIC_URL }}js/member-form.js"></script>
+  <script>
+    EDITABLE_DEPARTMENTS = {{ editable_departments }};
+  </script>
 {% endblock %}
 
 {% block content %}

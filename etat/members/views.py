@@ -13,9 +13,17 @@ from .forms import (MemberForm, AddressFormSet, EducationFormSet,
     limited_role_formset, ReachabilityFormSet)
 
 def member_list(request):
+
+    try:
+        editable = request.user.member.editable_departments()
+        editable_departments = editable.values_list('id', flat=True)
+    except Member.DoesNotExist:
+        editable_departments = []
+
     return render(request, 'members/list.html', {
         'roles': RoleType.objects.all(),
         'educations': EducationType.objects.all(),
+        'editable_departments': editable_departments,
     })
 
 
