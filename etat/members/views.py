@@ -124,10 +124,28 @@ def member_add(request):
     return render(request, 'members/form.html', context)
 
 
+def has_permission_to_edit(editor, member):
+    """ Returns true if the editor is allowed to edit this member """
+    try:
+        editable_departments = editor.member.editable_departments()
+    except Member.DoesNotExist:
+        return False
+
+    editable_department_ids = editable_departments.values_list('id', flat=True)
+    member_department_ids = member.departments.values_list('id', flat=True)
+
+    return any(d in member_department_ids for d in editable_department_ids)
+
+
 def member_edit(request, m_id):
     editor = request.user
-
     member = get_object_or_404(Member, pk=m_id)
+
+    if not has_permission_to_edit(editor, member):
+        return render(request, 'permission_denied.html', {
+            'object': member
+        }, status=403)
+
     if request.method == 'POST':
         member_form = MemberForm(request.POST, request.FILES or {}, instance=member)
         formsets = MemberFormsets(editor, request.POST, instance=member)

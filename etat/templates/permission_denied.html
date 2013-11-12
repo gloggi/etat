@@ -1,0 +1,14 @@
+{% extends "modal.html" %}
+{% load i18n bootstrap %}
+
+{% block title %}
+    {% trans "Permission denied!" %}
+{% endblock %}
+
+{% block content %}
+<div class="modal-body">
+    {% blocktrans %}
+        You are not allowed to edit {{ object }}.
+    {% endblocktrans %}
+</div>
+{% endblock %}

@@ -3,8 +3,16 @@
 
 function showModal(url, options) {
     $('body').modalmanager('loading');
-    $('#ajax-modal').load(url, function(){
-        $('#ajax-modal').modal(options);
+    $.ajax({
+        url: url,
+        complete: function(xhr, status) {
+            if(xhr.status == 500) {
+                $('#ajax-modal').html('<pre>'+xhr.responseText+'</pre>');
+            } else {
+                $('#ajax-modal').html(xhr.responseText);
+            }
+            $('#ajax-modal').modal(options);
+        }
     });
 }
 

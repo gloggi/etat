@@ -73,8 +73,6 @@ Etat.Views.MemberForm = Backbone.View.extend({
             added: this.initWidgets
         });
 
-        console.log($('.education.form-template tr'));
-
         this.initWidgets();
 
     }
