@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
@@ -18,11 +20,20 @@ class DepartmentType(models.Model):
 
 
 class Department(MPTTModel):
+    STEPS = (
+        (0, u'Fünklistufe'),
+        (1, u'Wolfsstufe'),
+        (2, u'Pfadistufe'),
+        (3, u'Piostufe'),
+        (4, u'Roverstufe'),
+    )
 
     name = models.CharField(_('name'), max_length=100)
+    short_name = models.CharField(_('short name'), max_length=10, blank=True)
     parent = TreeForeignKey('self', null=True, blank=True,
         related_name='children')
     type = models.ForeignKey(DepartmentType, blank=True, null=True)
+    step = models.IntegerField(_('step'), choices=STEPS, blank=True, null=True)
     notes = models.TextField(_('notes'), blank=True)
     website = models.URLField(_('website'), null=True, blank=True)
     logo = models.ImageField(_('logo'), upload_to='departments',
