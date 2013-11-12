@@ -66,6 +66,7 @@ with Department.objects.delay_mptt_updates():
     korps = Dataset('Tabelle:Korps.csv', {
         'Korpsnummer': 'legacy_id',
         'Korpsname': 'name',
+        'Korpskurzname': 'short_name',
     })
 
     for k in korps:
@@ -88,6 +89,7 @@ with Department.objects.delay_mptt_updates():
         'Abteilungsnummer': 'legacy_id',
         'Korpsnummer': 'parent_legacy_id',
         'Abteilungsname': 'name',
+        'Abteilungskurzname': 'short_name',
         'Homepage': 'website',
     })
 
@@ -118,7 +120,9 @@ with Department.objects.delay_mptt_updates():
     einheiten = Dataset('Tabelle:Einheiten.csv', {
         'Einheitennummer': 'legacy_id',
         'Einheitenname': 'name',
+        'Einheitenkurzname': 'short_name',
         'Abteilungsnummer': 'parent_legacy_id',
+        'Stufe': 'step',
     })
 
     dep_mapping = dict(Department.objects.all().values_list('legacy_id', 'id'))
@@ -128,6 +132,9 @@ with Department.objects.delay_mptt_updates():
 
         if e['legacy_id'] in existing_departments:
             continue
+
+        if not type(e['step']) == int:
+            del e['step']
 
         d = Department()
 
@@ -148,6 +155,7 @@ with Department.objects.delay_mptt_updates():
     gruppen = Dataset('Tabelle:Gruppen.csv', {
         'Gruppennummer': 'legacy_id',
         'Gruppenname': 'name',
+        'Gruppenkurzname': 'short_name',
         'Einheitennummer': 'parent_legacy_id'
     })
 
