@@ -10,6 +10,8 @@ from django_countries import CountryField
 
 from sorl.thumbnail import ImageField
 
+from etat.departments.models import Department
+
 class BaseModel(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
@@ -63,6 +65,17 @@ class Member(BaseModel):
             return self.addresses.get(main=True)
         except:
             return None
+
+    def editable_departments(self):
+        department_ids = set()
+
+        for department in self.departments.all():
+            descendants = department.get_descendants(include_self=True)
+            for descendant in descendants:
+                department_ids.add(descendant.id)
+
+        return Department.objects.filter(id__in=department_ids)
+
 
 class RoleType(BaseModel):
 

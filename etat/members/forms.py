@@ -6,7 +6,10 @@ from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+from mptt.forms import TreeNodeChoiceField
+
 from etat.utils.widgets import ImageWidget
+from etat.departments.models import Department
 
 import models
 
@@ -16,21 +19,13 @@ class MemberForm(forms.ModelForm):
 
     class Meta:
         model = models.Member
-        exclude = ('departments',)
+        exclude = ('departments', 'user')
         widgets = {
             'gender': forms.RadioSelect(
                 attrs={'class':'btn-group'}
             ),
         }
 
-
-class RoleInlineForm(forms.ModelForm):
-    class Meta:
-        model = models.Role
-        widgets = {
-            'start': forms.DateInput(attrs={'class': 'date'}),
-            'end': forms.DateInput(attrs={'class': 'date'}),
-        }
 
 class EducationInlineForm(forms.ModelForm):
     class Meta:
@@ -96,13 +91,7 @@ AddressFormSet = inlineformset_factory(
     formset=OneRequiredFormset
 )
 
-RoleFormSet = inlineformset_factory(
-    models.Member,
-    models.Role,
-    extra=0,
-    form=RoleInlineForm,
-    formset=OneRequiredFormset
-)
+
 
 EducationFormSet = inlineformset_factory(
     models.Member,
@@ -117,3 +106,38 @@ ReachabilityFormSet = inlineformset_factory(
     form=ReachabilityForm,
     extra=0
 )
+
+def limited_role_formset(editor, data=None, *args, **kwargs):
+    """
+    Creates a limited formset with for only departments the editor is a member of
+    """
+
+    try:
+        departments = editor.member.editable_departments()
+    except models.Member.DoesNotExist:
+        departments = Department.objects.none()
+    if editor.is_superuser:
+        departments = Department.objects.all()
+
+    class RoleInlineForm(forms.ModelForm):
+        department = TreeNodeChoiceField(queryset=departments)
+
+        class Meta:
+            model = models.Role
+            widgets = {
+                'start': forms.DateInput(attrs={'class': 'date'}),
+                'end': forms.DateInput(attrs={'class': 'date'}),
+            }
+
+    RoleFormset = inlineformset_factory(
+        models.Member,
+        models.Role,
+        extra=0,
+        form=RoleInlineForm,
+        formset=OneRequiredFormset
+    )
+
+    editable_roles = models.Role.objects.filter(department__in=departments)
+    kwargs['queryset'] = editable_roles
+
+    return RoleFormset(data, *args, **kwargs)

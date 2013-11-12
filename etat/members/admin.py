@@ -40,7 +40,7 @@ class MemberAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('scout_name', 'first_name', 'last_name', 'portrait',
-                'gender', 'birthday')
+                'gender', 'birthday', 'user')
         }),
         ('Notes', {
             'classes': ('collapse',),

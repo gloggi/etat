@@ -113,7 +113,7 @@ Etat.Views.MemberView = Backbone.View.extend({
         this.memberList.on('updated', _.bind(this.updateFilterBadges, this));
     },
 
-    memberIdForEvent: function() {
+    memberIdForEvent: function(event) {
         return $(event.target).parents('tr').find('td.id').text();
     },
 

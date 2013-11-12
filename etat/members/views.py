@@ -9,8 +9,8 @@ from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from etat.utils.deletion import deletion_tree
 
 from .models import Member, Role, RoleType, EducationType
-from .forms import (MemberForm, AddressFormSet, RoleFormSet, EducationFormSet,
-    ReachabilityFormSet)
+from .forms import (MemberForm, AddressFormSet, EducationFormSet,
+    limited_role_formset, ReachabilityFormSet)
 
 def member_list(request):
     return render(request, 'members/list.html', {
@@ -78,10 +78,10 @@ def member_view(request, m_id):
 
 class MemberFormsets():
 
-    def __init__(self, data=None, *args, **kwargs):
+    def __init__(self, editor, data=None, *args, **kwargs):
         self.context = {
             'address_formset': AddressFormSet(data, *args, **kwargs),
-            'roles_formset': RoleFormSet(data, *args, **kwargs),
+            'roles_formset': limited_role_formset(editor, data, *args, **kwargs),
             'education_formset': EducationFormSet(data, *args, **kwargs),
             'reachability_formset': ReachabilityFormSet(data, *args, **kwargs)
         }
@@ -101,9 +101,11 @@ class MemberFormsets():
 
 
 def member_add(request):
+    editor = request.user
+
     if request.method == 'POST':
         member_form = MemberForm(request.POST, request.FILES or {})
-        formsets = MemberFormsets(request.POST)
+        formsets = MemberFormsets(editor, request.POST)
 
         if member_form.is_valid():
             member = member_form.save(commit=False)
@@ -115,7 +117,7 @@ def member_add(request):
                 return HttpResponse('Saved', status=204)
     else:
         member_form = MemberForm()
-        formsets = MemberFormsets()
+        formsets = MemberFormsets(editor)
 
     context = {'member_form': member_form}
     context.update(formsets.context)
@@ -123,10 +125,12 @@ def member_add(request):
 
 
 def member_edit(request, m_id):
+    editor = request.user
+
     member = get_object_or_404(Member, pk=m_id)
     if request.method == 'POST':
         member_form = MemberForm(request.POST, request.FILES or {}, instance=member)
-        formsets = MemberFormsets(request.POST, instance=member)
+        formsets = MemberFormsets(editor, request.POST, instance=member)
 
         if member_form.is_valid() and formsets.all_valid():
             member_form.save()
@@ -134,7 +138,7 @@ def member_edit(request, m_id):
             return HttpResponse('Saved', status=204)
     else:
         member_form = MemberForm(instance=member)
-        formsets = MemberFormsets(instance=member)
+        formsets = MemberFormsets(editor, instance=member)
 
     context = {
         'member': member,
