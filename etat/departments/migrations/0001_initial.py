@@ -21,11 +21,14 @@ class Migration(SchemaMigration):
         db.create_table(u'departments_department', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('short_name', self.gf('django.db.models.fields.CharField')(max_length=10, blank=True)),
             ('parent', self.gf('mptt.fields.TreeForeignKey')(blank=True, related_name='children', null=True, to=orm['departments.Department'])),
             ('type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['departments.DepartmentType'], null=True, blank=True)),
+            ('step', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('notes', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('website', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
             ('logo', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
+            ('legacy_id', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100, blank=True)),
             (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
@@ -46,6 +49,7 @@ class Migration(SchemaMigration):
         u'departments.department': {
             'Meta': {'object_name': 'Department'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'legacy_id': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
             u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
@@ -53,6 +57,8 @@ class Migration(SchemaMigration):
             'notes': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['departments.Department']"}),
             u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
+            'step': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['departments.DepartmentType']", 'null': 'True', 'blank': 'True'}),
             'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
