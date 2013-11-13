@@ -6,16 +6,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 
-from etat.commons import STEPS
 from etat.departments.models import Department
 from etat.utils.deletion import deletion_tree
 
-from .models import Member, Role, RoleType, EducationType
-from .forms import (MemberForm, AddressFormSet, EducationFormSet,
-    limited_role_formset, ReachabilityFormSet)
+from .models import Member, Role
+from .forms import (MemberFilterForm, MemberForm, AddressFormSet,
+    EducationFormSet, limited_role_formset, ReachabilityFormSet)
 
 def member_list(request):
-
     try:
         editable = request.user.member.editable_departments()
         departments = editable.values_list('id', flat=True)
@@ -26,39 +24,34 @@ def member_list(request):
         departments = Department.objects.all().values_list('id', flat=True)
 
     return render(request, 'members/list.html', {
-        'roles': RoleType.objects.all(),
-        'educations': EducationType.objects.all(),
-        'steps': dict(s for s in STEPS),
-        'editable_departments': departments,
+        'filter_form': MemberFilterForm,
+        'editable_departments': list(departments),
     })
 
 
 def member_data(request):
     filter_args = []
-    departments = request.GET.getlist('departments[]')
-    roles = request.GET.getlist('roles[]')
-    education = request.GET.getlist('education[]')
-    steps = request.GET.getlist('steps[]')
-    status = request.GET.get('status')
+    departments = request.POST.getlist('departments', [])
+    filter_args.append(Q(departments__in=departments))
 
-    if departments:
-        filter_args.append(Q(departments__id__in=departments))
+    filter_form = MemberFilterForm(request.POST)
+    if not filter_form.is_valid():
+        return HttpResponse(json.dumps(filter_form.errors),
+            mimetype="application/json", status=403)
+    f = filter_form.cleaned_data
 
-    if roles:
-        filter_args.append(Q(roles__type__id__in=roles))
-
-    if education:
-        filter_args.append(Q(educations__type__id__in=education))
-
-    if steps:
-        step = Q(departments__step__in=steps) | Q(roles__type__step__in=steps)
-        filter_args.append(step)
-
-    if status == 'active':
+    if f['roles']:
+        filter_args.append(Q(roles__type__in=f['roles']))
+    if f['educations']:
+        filter_args.append(Q(educations__type__in=f['educations']))
+    if f['steps']:
+        filter_args.append(Q(departments__step__in=f['steps']) |
+                           Q(roles__type__step__in=f['steps']))
+    if f['active'] and not f['inactive']:
         filter_args.append(Q(roles__active=True))
-    elif status == 'inactive':
+    if not f['active'] and f['inactive']:
         filter_args.append(Q(roles__active=False))
-    elif status == 'none':
+    if not f['active'] and not f['inactive']:
         filter_args.append(Q(roles__active=None))
 
     members = Member.objects.filter(*filter_args).distinct()

@@ -90,9 +90,9 @@ Etat.Views.MemberView = Backbone.View.extend({
     events: {
         "tree.init #department-tree"         : "loadMembers",
         "selection_changed #department-tree" : "loadMembers",
-        "change #roles-filter"               : "loadMembers",
-        "change #education-filter"           : "loadMembers",
-        "change #step-filter"                : "loadMembers",
+        "change #id_roles"                   : "loadMembers",
+        "change #id_educations"               : "loadMembers",
+        "change #id_steps"                   : "loadMembers",
         "change .status-filter input"        : "loadMembers",
         "keyup input[type=search]"           : "searchChanged",
         "click .clear-search"                : "clearSearch",
@@ -149,28 +149,18 @@ Etat.Views.MemberView = Backbone.View.extend({
                 return member.values().gender == gender;
             });
         }
+
+        return false;
     },
 
     // Get all active filters to reload member list
     collectFilters: function() {
-        var filterArgs = {};
-        filterArgs['departments'] = this.departmentTree.getSelectedIds();
-
-        filterArgs['roles'] = $('#roles-filter').val();
-        filterArgs['education'] = $('#education-filter').val();
-        filterArgs['steps'] = $('#step-filter').val();
-
-        var active = $('input[name=active]').prop('checked'),
-            inactive = $('input[name=inactive]').prop('checked');
-        if (active && !inactive) {
-            filterArgs['status'] = 'active';
-        } else if (inactive && !active) {
-            filterArgs['status'] = 'inactive';
-        } else if (!active && !inactive) {
-            filterArgs['status'] = 'none';
-        }
-
-        return filterArgs;
+        var query = '';
+        _.each(this.departmentTree.getSelectedIds(), function(d) {
+            query += 'departments='+d+'&';
+        });
+        query += $('#filter-form').formSerialize();
+        return query;
     },
 
     // Reload member data form server an display them in member table
@@ -180,6 +170,7 @@ Etat.Views.MemberView = Backbone.View.extend({
         var memberList = this.memberList;
 
         members.fetch({
+            method: 'post',
             data: this.collectFilters(),
             success: _.bind(this.updateMemberList, this),
         });
@@ -269,6 +260,8 @@ $(function () {
     $('#ajax-modal').on('modal-saved', function() {
         memberView.loadMembers();
     });
+
+    $('#sidebar .nav-tabs a:first').tab('show')
 
     // monitor shift and ctrl keys
     $(document).on('keydown keyup', function(e) {

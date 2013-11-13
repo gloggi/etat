@@ -61,6 +61,20 @@ ul {
 
 /* Member list */
 
+#sidebar .nav-tabs > li.active > a {
+    background-color: #f5f5f5;
+    border-bottom-color: #f5f5f5;
+}
+
+#sidebar .tab-pane {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+}
+
+
 .sort {
     position: relative;
 }

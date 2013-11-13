@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-13 01:06+0100\n"
+"POT-Creation-Date: 2013-11-13 02:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "Einheitstypen"
 msgid "short name"
 msgstr "Kurzname"
 
-#: departments/models.py:31
+#: departments/models.py:31 members/models.py:85
 msgid "step"
 msgstr "Stufe"
 
@@ -66,11 +66,27 @@ msgstr "Logo"
 msgid "Department"
 msgstr "Einheit"
 
-#: departments/models.py:42 templates/members/list.html:16
+#: departments/models.py:42 templates/members/list.html:17
 msgid "Departments"
 msgstr "Einheiten"
 
-#: members/forms.py:47
+#: members/forms.py:20 members/models.py:121 templates/members/form.html:25
+msgid "Roles"
+msgstr "Funktionen"
+
+#: members/forms.py:23 members/forms.py:29 members/forms.py:35
+msgid "All"
+msgstr "Alle"
+
+#: members/forms.py:26
+msgid "steps"
+msgstr "Stufen"
+
+#: members/forms.py:32 members/models.py:226
+msgid "Educations"
+msgstr "Ausbildungen"
+
+#: members/forms.py:70
 #, python-format
 msgid "%(parent)s must have at least one %(child)s!"
 msgstr "%(parent)s muss mindestens eine %(child)s haben!"
@@ -83,15 +99,15 @@ msgstr "weiblich"
 msgid "male"
 msgstr "männlich"
 
-#: members/models.py:34 templates/members/list.html:88
+#: members/models.py:34 templates/members/list.html:81
 msgid "scout name"
 msgstr "Pfadiname"
 
-#: members/models.py:35 templates/members/list.html:89
+#: members/models.py:35 templates/members/list.html:82
 msgid "first name"
 msgstr "Vorname"
 
-#: members/models.py:36 templates/members/list.html:90
+#: members/models.py:36 templates/members/list.html:83
 msgid "last name"
 msgstr "Nachname"
 
@@ -115,10 +131,6 @@ msgstr "Mitglied"
 msgid "Members"
 msgstr "Mitglieder"
 
-#: members/models.py:85 templates/members/list.html:44
-msgid "steps"
-msgstr "Stufe"
-
 #: members/models.py:89
 msgid "Role type"
 msgstr "Funktionstyp"
@@ -136,14 +148,9 @@ msgid "end"
 msgstr "Ende"
 
 #: members/models.py:120 templates/members/form.html:108
-#: templates/members/list.html:91
+#: templates/members/list.html:84
 msgid "Role"
 msgstr "Funktion"
-
-#: members/models.py:121 templates/members/form.html:25
-#: templates/members/list.html:19
-msgid "Roles"
-msgstr "Funktionen"
 
 #: members/models.py:125
 msgid "Start data has to be before end date!"
@@ -255,13 +262,8 @@ msgid "date"
 msgstr "Datum"
 
 #: members/models.py:225 templates/members/form.html:27
-#: templates/members/list.html:37
 msgid "Education"
 msgstr "Ausbildung"
-
-#: members/models.py:226
-msgid "Educations"
-msgstr "Ausbildungen"
 
 #: templates/base.html:38
 msgid "ETAT"
@@ -276,6 +278,7 @@ msgid "Log out"
 msgstr "Abmelden"
 
 #: templates/confirm_delete.html:12
+#, python-format
 msgid "Are you sure you want to delete %(object)s?"
 msgstr "Bist du sicher, dass du %(object)s löschen willst?"
 
@@ -292,6 +295,7 @@ msgid "Permission denied!"
 msgstr "Keine Berechtigung!"
 
 #: templates/permission_denied.html:10
+#, python-format
 msgid "You are not allowed to edit %(object)s."
 msgstr "Du darfst %(object)s nicht bearbeiten."
 
@@ -387,24 +391,23 @@ msgstr "Account löschen"
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/members/list.html:20 templates/members/list.html.py:38
-#: templates/members/list.html:45
-msgid "All"
-msgstr "Alle"
+#: templates/members/list.html:19
+msgid "Filters"
+msgstr ""
 
-#: templates/members/list.html:29
-msgid "Active"
+#: templates/members/list.html:34
+msgid "Activs"
 msgstr "Aktive"
 
-#: templates/members/list.html:33
-msgid "Inactive"
+#: templates/members/list.html:38
+msgid "Inactivs"
 msgstr "Inaktive"
 
-#: templates/members/list.html:58
+#: templates/members/list.html:51
 msgid "search"
 msgstr "suchen"
 
-#: templates/members/list.html:79
+#: templates/members/list.html:72
 msgid "New"
 msgstr "Neu"
 
@@ -415,6 +418,12 @@ msgstr ""
 #: templates/registration/login.html:27
 msgid "Login"
 msgstr "Anmelden"
+
+#~ msgid "active"
+#~ msgstr "Aktive"
+
+#~ msgid "inactive"
+#~ msgstr "Inaktive"
 
 #~ msgid "default role"
 #~ msgstr "Standard Funktion"

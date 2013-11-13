@@ -82,7 +82,7 @@ class Member(BaseModel):
 class RoleType(BaseModel):
 
     name = models.CharField(_('name'), max_length=100)
-    step = models.IntegerField(_('steps'), choices=STEPS, blank=True, null=True)
+    step = models.IntegerField(_('step'), choices=STEPS, blank=True, null=True)
     order = models.PositiveIntegerField()
 
     class Meta:

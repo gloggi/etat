@@ -8,10 +8,37 @@ from django.utils.translation import ugettext as _
 
 from mptt.forms import TreeNodeChoiceField
 
+from etat.commons import STEPS
 from etat.utils.widgets import ImageWidget
 from etat.departments.models import Department
 
 import models
+
+
+class MemberFilterForm(forms.Form):
+    roles = forms.ModelMultipleChoiceField(
+        label=_('Roles'),
+        queryset=models.RoleType.objects.all(),
+        required=False,
+        widget=forms.SelectMultiple(
+            attrs={'data-placeholder': _('All')}
+        ))
+    steps = forms.MultipleChoiceField(
+        label=_('steps'),
+        choices=STEPS,
+        required=False,
+        widget=forms.SelectMultiple(
+            attrs={'data-placeholder': _('All')}
+        ))
+    educations = forms.ModelMultipleChoiceField(
+        label=_('Educations'),
+        queryset=models.EducationType.objects.all(),
+        required=False,
+        widget=forms.SelectMultiple(
+            attrs={'data-placeholder': _('All')}
+        ))
+    active = forms.BooleanField(required=False)
+    inactive = forms.BooleanField(required=False)
 
 
 class MemberForm(forms.ModelForm):
