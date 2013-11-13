@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 
+from etat.commons import STEPS
+from etat.departments.models import Department
 from etat.utils.deletion import deletion_tree
 
 from .models import Member, Role, RoleType, EducationType
@@ -16,14 +18,18 @@ def member_list(request):
 
     try:
         editable = request.user.member.editable_departments()
-        editable_departments = editable.values_list('id', flat=True)
+        departments = editable.values_list('id', flat=True)
     except Member.DoesNotExist:
-        editable_departments = []
+        departments = []
+
+    if request.user.is_superuser:
+        departments = Department.objects.all().values_list('id', flat=True)
 
     return render(request, 'members/list.html', {
         'roles': RoleType.objects.all(),
         'educations': EducationType.objects.all(),
-        'editable_departments': editable_departments,
+        'steps': dict(s for s in STEPS),
+        'editable_departments': departments,
     })
 
 
@@ -32,8 +38,8 @@ def member_data(request):
     departments = request.GET.getlist('departments[]')
     roles = request.GET.getlist('roles[]')
     education = request.GET.getlist('education[]')
+    steps = request.GET.getlist('steps[]')
     status = request.GET.get('status')
-    gender = request.GET.get('gender')
 
     if departments:
         filter_args.append(Q(departments__id__in=departments))
@@ -44,8 +50,9 @@ def member_data(request):
     if education:
         filter_args.append(Q(educations__type__id__in=education))
 
-    if gender:
-        filter_args.append(Q(gender=gender))
+    if steps:
+        step = Q(departments__step__in=steps) | Q(roles__type__step__in=steps)
+        filter_args.append(step)
 
     if status == 'active':
         filter_args.append(Q(roles__active=True))
@@ -134,6 +141,8 @@ def member_add(request):
 
 def has_permission_to_edit(editor, member):
     """ Returns true if the editor is allowed to edit this member """
+    if editor.is_superuser:
+        return True
     try:
         editable_departments = editor.member.editable_departments()
     except Member.DoesNotExist:

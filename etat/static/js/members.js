@@ -92,6 +92,7 @@ Etat.Views.MemberView = Backbone.View.extend({
         "selection_changed #department-tree" : "loadMembers",
         "change #roles-filter"               : "loadMembers",
         "change #education-filter"           : "loadMembers",
+        "change #step-filter"                : "loadMembers",
         "change .status-filter input"        : "loadMembers",
         "keyup input[type=search]"           : "searchChanged",
         "click .clear-search"                : "clearSearch",
@@ -157,6 +158,7 @@ Etat.Views.MemberView = Backbone.View.extend({
 
         filterArgs['roles'] = $('#roles-filter').val();
         filterArgs['education'] = $('#education-filter').val();
+        filterArgs['steps'] = $('#step-filter').val();
 
         var active = $('input[name=active]').prop('checked'),
             inactive = $('input[name=inactive]').prop('checked');

@@ -9,9 +9,7 @@
 <form action="{{ request.path }}" method="post">
     {% csrf_token %}
     <div class="modal-body">
-        {% blocktrans %}
-            Are you sure you want to delete {{ object }}?
-        {% endblocktrans %}
+        {% blocktrans %}Are you sure you want to delete {{ object }}?{% endblocktrans %}
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-warning pull-left" data-dismiss="modal">

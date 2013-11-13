@@ -40,6 +40,13 @@
           <option value="{{ education.id }}">{{ education }}</option>
         {% endfor %}
       </select>
+      <div class="space"></div>
+      <h3>{% trans "steps" %}</h3>
+      <select id="step-filter" class="form-control" data-placeholder="{% trans 'All' %}" multiple>
+        {% for step, name in steps.items %}
+          <option value="{{ step }}">{{ name }}</option>
+        {% endfor %}
+      </select>
     </div>
   </div> <!-- sidebar -->
 

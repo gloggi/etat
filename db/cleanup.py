@@ -77,3 +77,6 @@ RoleType.objects.filter(name="WBSL").update(step=1)
 RoleType.objects.filter(name="PSL").update(step=2)
 RoleType.objects.filter(name="PioSL").update(step=3)
 RoleType.objects.filter(name="RSL").update(step=4)
+
+print u"Auch der Praesi muss anstehen"
+RoleType.objects.filter(name="Präsident / Obmann").update(order=666)
