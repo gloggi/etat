@@ -224,7 +224,6 @@ class Education(BaseModel):
     class Meta:
         verbose_name = _('Education')
         verbose_name_plural = _('Educations')
-        unique_together = ('member', 'type')
 
     def __unicode__(self):
         return self.type.title
