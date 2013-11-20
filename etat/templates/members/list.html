@@ -60,13 +60,17 @@
   <div id="member-list" class="col-md-9">
       <!-- top buttons -->
       <div class="row space">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <button class="btn btn-success member-add">
               <i class="fa fa-plus-circle"></i>
               {% trans "New" %}
             </button>
+            <button class="btn btn-info export-csv">
+              <i class="fa fa-download"></i>
+              {% trans "Export" %}
+            </button>
         </div>
-        <div class="col-md-4 col-md-offset-6">
+        <div class="col-md-4 col-md-offset-4">
             <div class="input-group">
               <input type="search" class="search form-control" placeholder="{% trans 'search' %}" />
               <span class="input-group-btn">

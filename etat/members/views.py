@@ -1,15 +1,16 @@
 import json
+import unicodecsv
 
 from django.http import HttpResponse, Http404
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
+from django.utils.translation import ugettext as _
 
 from etat.departments.models import Department
 from etat.utils.deletion import deletion_tree
 
-from .models import Member, Role
+from .models import Member, Address, Reachability, Role
 from .forms import (MemberFilterForm, MemberForm, AddressFormSet,
     EducationFormSet, limited_role_formset, ReachabilityFormSet)
 
@@ -29,12 +30,12 @@ def member_list(request):
     })
 
 
-def member_data(request):
+def _member_filter(request):
     filter_args = []
-    departments = request.POST.getlist('departments', [])
+    departments = request.REQUEST.getlist('departments')
     filter_args.append(Q(departments__in=departments))
 
-    filter_form = MemberFilterForm(request.POST)
+    filter_form = MemberFilterForm(request.REQUEST)
     if not filter_form.is_valid():
         return HttpResponse(json.dumps(filter_form.errors),
             mimetype="application/json", status=403)
@@ -54,7 +55,11 @@ def member_data(request):
     if not f['active'] and not f['inactive']:
         filter_args.append(Q(roles__active=None))
 
-    members = Member.objects.filter(*filter_args).distinct()
+    return Member.objects.filter(*filter_args).distinct()
+
+
+def member_data(request):
+    members = _member_filter(request)
     member_values = ('id', 'scout_name', 'first_name', 'last_name', 'gender')
     member_data = members.values(*member_values)
 
@@ -76,6 +81,53 @@ def member_data(request):
         json.dumps(list(member_data)),
         mimetype='application/json'
     )
+
+
+def member_export(request):
+    member_fields = ['scout_name', 'first_name', 'last_name', 'gender', 'birthday']
+    address_fields = ['street', 'postal_code', 'city']
+
+    members = _member_filter(request).values_list('id', *member_fields)
+    member_dict = dict((m[0], list(m[1:])) for m in members)
+    addresses = Address.objects.filter(main=True, member_id__in=member_dict.keys())
+
+    for adr in addresses.values_list('member_id', *address_fields):
+        member_dict[adr[0]].extend(adr[1:])
+
+    member_reach = {}
+    reach = Reachability.objects.filter(member_id__in=member_dict.keys)
+    for r in reach:
+        if r.member_id not in member_reach:
+            member_reach[r.member_id] = {}
+        m = member_reach[r.member_id]
+        if r.type == 'phone' and 'phone' not in m:
+            m['phone'] = r.value
+        if r.type == 'email' and 'email' not in m:
+            m['email'] = r.value
+
+    for m_id, v in member_reach.items():
+        member_dict[m_id].extend(v.values())
+
+    header_row = []
+    for mf in member_fields:
+        field = Member._meta.get_field(mf)
+        header_row.append(field.verbose_name.upper())
+
+    for af in address_fields:
+        field = Address._meta.get_field(af)
+        header_row.append(field.verbose_name.upper())
+
+    header_row.extend([r.upper() for r in (_('Phone'), _('Email'))])
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="members.csv"'
+    writer = unicodecsv.writer(response)
+    writer.writerow(header_row)
+    for member in member_dict.values():
+        writer.writerow(member)
+
+    return response
+
 
 def member_view(request, m_id):
     member = get_object_or_404(Member, pk=m_id)

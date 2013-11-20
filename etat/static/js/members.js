@@ -91,13 +91,14 @@ Etat.Views.MemberView = Backbone.View.extend({
         "tree.init #department-tree"         : "loadMembers",
         "selection_changed #department-tree" : "loadMembers",
         "change #id_roles"                   : "loadMembers",
-        "change #id_educations"               : "loadMembers",
+        "change #id_educations"              : "loadMembers",
         "change #id_steps"                   : "loadMembers",
         "change .status-filter input"        : "loadMembers",
         "keyup input[type=search]"           : "searchChanged",
         "click .clear-search"                : "clearSearch",
         "click .gender-filter button"        : "filterByGender",
         "click .member-add"                  : "addMember",
+        "click .export-csv"                  : "exportCSV",
         "click .member-detail"               : "showMember",
         "click .member-edit"                 : "editMember",
     },
@@ -174,6 +175,11 @@ Etat.Views.MemberView = Backbone.View.extend({
             data: this.collectFilters(),
             success: _.bind(this.updateMemberList, this),
         });
+    },
+
+    exportCSV: function() {
+        var filters = this.collectFilters();
+        window.open('export/?'+filters);
     },
 
     updateMemberList: function(members) {
@@ -261,7 +267,7 @@ $(function () {
         memberView.loadMembers();
     });
 
-    $('#sidebar .nav-tabs a:first').tab('show')
+    $('#sidebar .nav-tabs a:first').tab('show');
 
     // monitor shift and ctrl keys
     $(document).on('keydown keyup', function(e) {

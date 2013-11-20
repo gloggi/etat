@@ -21,3 +21,4 @@ six==1.4.1
 sorl-thumbnail==11.12
 South==0.8.2
 sqlparse==0.1.10
+unicodecsv==0.9.4

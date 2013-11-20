@@ -9,6 +9,10 @@ urlpatterns = patterns('etat.members.views',
         'member_data',
         name='member_data'
     ),
+    url(r'^export/$',
+        'member_export',
+        name='member_export'
+    ),
     url(r'^add/$',
         'member_add',
         name='member_add'
