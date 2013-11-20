@@ -28,6 +28,7 @@ class ReachabilityAdminInline(admin.TabularInline):
 
 class MemberAdmin(AdminImageMixin, admin.ModelAdmin):
     list_display = ('scout_name', 'first_name', 'last_name')
+    list_filter = ('gender', 'application')
     search_fields = ('scout_name', 'first_name', 'last_name')
 
     inlines = [

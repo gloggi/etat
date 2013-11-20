@@ -221,6 +221,7 @@ class Command(NoArgsCommand):
             'vulgo': 'scout_name',
             'Geschlecht': 'gender',
             'Geburtsdatum': 'birthday',
+            'Anmeldung': 'application',
             'Memo': 'notes',
         })
         existing_members = Member.objects.all().values_list('legacy_id', flat=True)

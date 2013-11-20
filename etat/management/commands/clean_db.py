@@ -51,17 +51,6 @@ class Command(NoArgsCommand):
                 r.end = now().date()
                 r.save()
 
-        print u"Handy nummern als privat markieren"
-        for r in Reachability.objects.filter(type='phone', value__startswith='07'):
-            if not r.kind == 'private':
-                r.kind = 'private'
-                r.save()
-
-        print u"Aktualisiere alte Vorwahl von Zuerich"
-        for r in Reachability.objects.filter(type='phone', value__startswith='01'):
-            r.value = r.value.replace('01/', '044 ').replace('01 ', '044 ')
-            r.save()
-
         print u"Maedels korrigieren"
         Member.objects.filter(gender='w').update(gender='f')
 

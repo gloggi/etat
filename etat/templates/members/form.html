@@ -40,28 +40,12 @@
                     {{ member_form.scout_name|bootstrap }}
                     {{ member_form.first_name|bootstrap }}
                     {{ member_form.last_name|bootstrap }}
-                    <div class="form-group">
-                        <label class="control-label">
-                            {{ member_form.gender.label }}
-                        </label>
-                        <div class="btn-group full" data-toggle="buttons">
-                            <label class="btn btn-default half">
-                              <input type="radio" name="gender" value="m">
-                              <i class="fa fa-male"></i>
-                              Gentleman
-                            </label>
-                            <label class="btn btn-default half" >
-                              <input type="radio" name="gender" value="f" >
-                              <i class="fa fa-female"></i>
-                              Lady
-                            </label>
-                        </div>
-                        {{ member_form.gender.errors }}
-                    </div>
                     {{ member_form.birthday|bootstrap }}
                 </div>
                 <div class="col-md-6">
                     {{ member_form.portrait|bootstrap }}
+                    {{ member_form.gender|bootstrap }}
+                    {{ member_form.application| bootstrap }}
                 </div>
             </div>
         </div>
@@ -194,8 +178,6 @@
         {% else %}
             $('.member-tab-nav a:first').tab('show');
         {% endif %}
-
-        $('input[name=gender][value={{ member_form.gender.value }}]').click();
     });
 
     // Kick of Member Form View

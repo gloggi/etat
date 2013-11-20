@@ -34,15 +34,13 @@ class Member(BaseModel):
     scout_name = models.CharField(_('scout name'), max_length=100, blank=True)
     first_name = models.CharField(_('first name'), max_length=100)
     last_name = models.CharField(_('last name'), max_length=100)
-
-    portrait = ImageField(_('portrait'), upload_to='members',
-        null=True, blank=True)
-
+    portrait = ImageField(_('portrait'), null=True, blank=True,
+        upload_to='members')
     gender = models.CharField(_('gender'), max_length=2, choices=GENDER_CHOICES,
         default='m')
     birthday = models.DateField(_('birthday'), null=True, blank=True)
-
     notes = models.TextField(_('notes'), blank=True)
+    application = models.BooleanField(_('application'), default=False)
 
     departments = models.ManyToManyField('departments.Department',
         through='Role', related_name='members')

@@ -136,6 +136,11 @@ ul {
     display: none;
 }
 
+.form-group .radio {
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+
 .modal-footer.add #add-address,
 .modal-footer.add #add-role {
     display: none;

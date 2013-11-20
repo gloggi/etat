@@ -48,9 +48,7 @@ class MemberForm(forms.ModelForm):
         model = models.Member
         exclude = ('departments', 'user')
         widgets = {
-            'gender': forms.RadioSelect(
-                attrs={'class':'btn-group'}
-            ),
+            'gender': forms.RadioSelect
         }
 
 
