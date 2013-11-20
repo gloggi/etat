@@ -1,9 +1,9 @@
-from django.core.management.base import BaseCommand
+from django.core.management.base import NoArgsCommand
 
 from etat.members.models import Role
 
-class Command(BaseCommand):
+class Command(NoArgsCommand):
 
-    def handle(self, *args, **options):
+    def handle_noargs(self, **options):
         Role.objects.active().update(active=True)
         Role.objects.inactive().update(active=False)

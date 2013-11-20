@@ -34,8 +34,11 @@ class Department(MPTTModel):
     logo = models.ImageField(_('logo'), upload_to='departments',
         null=True, blank=True)
 
+    active = models.BooleanField(default=True)
     legacy_id = models.CharField(max_length=100, unique=True, blank=True,
         editable=False)
+
+
 
     class Meta:
         verbose_name = _('Department')

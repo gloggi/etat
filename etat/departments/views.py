@@ -22,7 +22,7 @@ def serialize_tree(queryset):
 
 
 def department_data(request):
-    departments = Department.objects.all()
+    departments = Department.objects.filter(active=True)
     tree = cache_tree_children(departments)
     data = serialize_tree(tree)
     return HttpResponse(json.dumps(data), mimetype="application/json")
