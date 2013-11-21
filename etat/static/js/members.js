@@ -33,12 +33,12 @@ var DepartmentTree = Backbone.View.extend({
     treeClick: function(e) {
         e.preventDefault();
         var node = e.node;
-        if (document.shiftKey && document.ctrlKey) {
-            this.shiftCtrlClick(node);
-        } else if (document.shiftKey) {
-            this.shiftClick(node);
+        if (document.ctrlKey && document.shiftKey) {
+            this.ctrlShiftClick(node);
         } else if (document.ctrlKey) {
             this.ctrlClick(node);
+        } else if (document.shiftKey) {
+            this.shiftClick(node);
         } else {
             this.normalClick(node);
         }
@@ -52,7 +52,7 @@ var DepartmentTree = Backbone.View.extend({
         this.$el.tree('selectNode', node);
     },
 
-    shiftCtrlClick: function(node) {
+    ctrlClick: function(node) {
         var withAllSubNodes = _.bind(this.withAllSubNodes, this);
         if (node.is_open) {
             withAllSubNodes('closeNode', node);
@@ -69,7 +69,7 @@ var DepartmentTree = Backbone.View.extend({
         }
     },
 
-    ctrlClick: function(node) {
+    ctrlShiftClick: function(node) {
         var withAllSubNodes = _.bind(this.withAllSubNodes, this);
         if (this.$el.tree('isNodeSelected', node)) {
             withAllSubNodes('removeFromSelection', node);
