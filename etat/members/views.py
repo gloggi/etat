@@ -37,10 +37,12 @@ def _member_filter(request):
 
     filter_form = MemberFilterForm(request.REQUEST)
     if not filter_form.is_valid():
-        return HttpResponse(json.dumps(filter_form.errors),
-            mimetype="application/json", status=403)
+        return Member.objects.none()
+
     f = filter_form.cleaned_data
 
+    if f['gender']:
+        filter_args.append(Q(gender__in=f['gender']))
     if f['roles']:
         filter_args.append(Q(roles__type__in=f['roles']))
     if f['educations']:

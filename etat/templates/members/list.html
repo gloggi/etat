@@ -27,16 +27,18 @@
         </div>
         <div class="tab-pane" id="filters">
             <label>{% trans "gender" %}</label>
-            <div class="gender-filter btn-group full">
-              <button class="btn btn-default half" data-gender="m">
+            <form id="filter-form">
+            <div class="gender-filter btn-group full" data-toggle="buttons">
+              <label class="btn btn-default half">
+                <input type="checkbox" name="gender" value="m">
                 <i class="fa fa-male"></i>
-              </button>
-              <button class="btn btn-default half" data-gender="f">
+              </label>
+              <label class="btn btn-default half">
+                <input type="checkbox" name="gender" value="f">
                 <i class="fa fa-female"></i>
               </label>
             </div>
             <div class="space"></div>
-            <form id="filter-form">
             {{ filter_form.roles|bootstrap }}
             <div class="form-group">
               <div class="status-filter btn-group full" data-toggle="buttons">

@@ -16,6 +16,11 @@ import models
 
 
 class MemberFilterForm(forms.Form):
+    gender = forms.MultipleChoiceField(
+        choices=models.Member.GENDER_CHOICES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
     roles = forms.ModelMultipleChoiceField(
         label=_('Roles'),
         queryset=models.RoleType.objects.all(),
