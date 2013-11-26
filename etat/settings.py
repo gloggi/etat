@@ -136,6 +136,10 @@ SUIT_CONFIG = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+}
+
 try:
     from etat.local_settings import *
 except ImportError:
