@@ -233,10 +233,10 @@ class Command(NoArgsCommand):
             m = Member()
             if not p['birthday'] or isinstance(p['birthday'], basestring):
                 p['birthday'] = None
+            if p.get('gender') == 'w':
+                p['gender'] = 'f'
             for k, v in p.items():
                 setattr(m, k, v)
-            if not m.gender:
-                m.gender = 'f'
 
             new_members.append(m)
 
