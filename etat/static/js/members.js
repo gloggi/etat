@@ -81,7 +81,7 @@ var DepartmentTree = Backbone.View.extend({
     initialize: function() {
         this.$el.tree({
             dataUrl: '/departments/data/',
-            autoOpen: 3,
+            autoOpen: false,
             saveState: true,
             useContextMenu: false,
             onCreateLi: function(node, $li) {
