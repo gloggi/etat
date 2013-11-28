@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{{ STATIC_URL }}libs/chosen/chosen.css">
   <link href='http://fonts.googleapis.com/css?family=Arvo:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css">
+
+  <script src="{{ STATIC_URL }}bower/jquery/jquery.js"></script>
   {% block extra-head %}{% endblock %}
 </head>
 
@@ -44,6 +46,11 @@
             <li>
                 <a href="{% url 'member_list' %}">
                   <i class="fa fa-group"></i> {% trans "Members" %}
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'camp_list' %}">
+                  <i class="fa fa-fire"></i> {% trans "Camps" %}
                 </a>
             </li>
             {% endblock %}
@@ -83,7 +90,6 @@
 
   <div id="ajax-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-  <script src="{{ STATIC_URL }}bower/jquery/jquery.js"></script>
   <script src="{{ STATIC_URL }}bower/jquery.cookie/jquery.cookie.js"></script>
   <script src="{{ STATIC_URL }}bower/jquery-form/jquery.form.js"></script>
   <script src="{{ STATIC_URL }}bower/bootstrap/dist/js/bootstrap.js"></script>

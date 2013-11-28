@@ -2,8 +2,7 @@
 {% load i18n thumbnail %}
 
 {% block title %}
-    {{ member.fullname }}
-    {% if member.scout_name %}v/o {{ member.scout_name}}{% endif %}
+    {{ member }}
 {% endblock %}
 
 {% block content %}

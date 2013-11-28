@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-28 19:07+0100\n"
+"POT-Creation-Date: 2013-11-29 00:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,12 @@ msgstr "Deutsch"
 msgid "English"
 msgstr "Englisch"
 
-#: camps/models.py:12 camps/models.py:25 camps/models.py:57
+#: camps/models.py:12 camps/models.py:25 camps/models.py:60
 #: members/models.py:195
 msgid "title"
 msgstr "Titel"
 
-#: camps/models.py:16
+#: camps/models.py:16 templates/camps/list.html:12
 msgid "Camp type"
 msgstr "Lagertyp"
 
@@ -39,71 +39,91 @@ msgstr "Lagertyp"
 msgid "Camp types"
 msgstr "Lagertypen"
 
-#: camps/models.py:30
+#: camps/models.py:27 members/models.py:169 templates/camps/form.html:49
+msgid "type"
+msgstr "Typ"
+
+#: camps/models.py:29 departments/models.py:44 templates/members/form.html:90
+msgid "Department"
+msgstr "Einheit"
+
+#: camps/models.py:31
 msgid "begin"
 msgstr "Beginn"
 
-#: camps/models.py:31 members/models.py:101 templates/members/form.html:94
+#: camps/models.py:32 members/models.py:101 templates/members/form.html:93
 msgid "end"
 msgstr "Ende"
 
-#: camps/models.py:33
+#: camps/models.py:34
 msgid "address 1"
 msgstr "Adresse 1"
 
-#: camps/models.py:34
+#: camps/models.py:35
 msgid "address 2"
 msgstr "Adresse 2"
 
-#: camps/models.py:35 members/models.py:132 templates/members/form.html:57
+#: camps/models.py:36 members/models.py:132 templates/members/form.html:56
 msgid "post code"
 msgstr "PLZ"
 
-#: camps/models.py:37 members/models.py:133 templates/members/form.html:58
+#: camps/models.py:38 members/models.py:133 templates/members/form.html:57
 msgid "city"
 msgstr "Ort"
 
-#: camps/models.py:38
+#: camps/models.py:39
 msgid "phone"
 msgstr "Telefon"
 
 #: camps/models.py:41
+msgid "Min birth year"
+msgstr "Min. Geburtsjahr"
+
+#: camps/models.py:43
 msgid "fee"
 msgstr "Lagerbeitrag"
 
-#: camps/models.py:43 departments/models.py:32 members/models.py:33
+#: camps/models.py:45 departments/models.py:32 members/models.py:33
 msgid "notes"
 msgstr "Notizen"
 
-#: camps/models.py:49
+#: camps/models.py:51
 msgid "Camp"
 msgstr "Lager"
 
-#: camps/models.py:50
+#: camps/models.py:52 templates/base.html:53
 msgid "Camps"
 msgstr "Lager"
 
-#: camps/models.py:61
+#: camps/models.py:64
 msgid "Participant type"
 msgstr "Teilnehmertyp"
 
-#: camps/models.py:62
+#: camps/models.py:65
 msgid "Participant types"
 msgstr "Teilnehmertypen"
 
-#: camps/models.py:74
+#: camps/models.py:77 templates/camps/form.html:50
 msgid "Signup date"
 msgstr "Anmeldedatum"
 
-#: camps/models.py:76
+#: camps/models.py:79
 msgid "confirmation"
 msgstr "Bestätigung"
 
+#: camps/models.py:81
+msgid "payed fee"
+msgstr "Betrag bezahlt"
+
 #: camps/models.py:82
+msgid "payed date"
+msgstr "Zahlungsdatum"
+
+#: camps/models.py:85
 msgid "Participant"
 msgstr "Teilnehmer"
 
-#: camps/models.py:83
+#: camps/models.py:86 templates/camps/form.html:14
 msgid "Participants"
 msgstr "Teilnehmer"
 
@@ -139,19 +159,16 @@ msgstr "Webseite"
 msgid "logo"
 msgstr "Logo"
 
-#: departments/models.py:44 templates/members/form.html:91
-msgid "Department"
-msgstr "Einheit"
-
 #: departments/models.py:45 templates/members/list.html:18
 msgid "Departments"
 msgstr "Einheiten"
 
-#: members/forms.py:26 members/models.py:110 templates/members/form.html:25
+#: members/forms.py:26 members/models.py:110 templates/members/form.html:24
 msgid "Roles"
 msgstr "Funktionen"
 
 #: members/forms.py:30 members/forms.py:37 members/forms.py:44
+#: templates/camps/list.html:14
 msgid "All"
 msgstr "Alle"
 
@@ -208,11 +225,11 @@ msgstr "Geburtstag"
 msgid "application"
 msgstr "Anmeldung"
 
-#: members/models.py:43
+#: members/models.py:43 templates/camps/form.html:48
 msgid "Member"
 msgstr "Mitglied"
 
-#: members/models.py:44 templates/base.html:46
+#: members/models.py:44 templates/base.html:48
 msgid "Members"
 msgstr "Mitglieder"
 
@@ -224,11 +241,11 @@ msgstr "Funktionstyp"
 msgid "Role types"
 msgstr "Funktionstypen"
 
-#: members/models.py:100 templates/members/form.html:93
+#: members/models.py:100 templates/members/form.html:92
 msgid "start"
 msgstr "Start"
 
-#: members/models.py:109 templates/members/form.html:92
+#: members/models.py:109 templates/members/form.html:91
 #: templates/members/list.html:95
 msgid "Role"
 msgstr "Funktion"
@@ -242,11 +259,11 @@ msgstr "Start Datum muss vor dem Ende sein!"
 msgid "%(type)s at %(department)s"
 msgstr "%(type)s bei %(department)s"
 
-#: members/models.py:131 templates/members/form.html:56
+#: members/models.py:131 templates/members/form.html:55
 msgid "street"
 msgstr "Strasse"
 
-#: members/models.py:134 templates/members/form.html:59
+#: members/models.py:134 templates/members/form.html:58
 msgid "country"
 msgstr "Land"
 
@@ -298,10 +315,6 @@ msgstr "Pfadi"
 msgid "Other"
 msgstr "Andere"
 
-#: members/models.py:169
-msgid "type"
-msgstr "Typ"
-
 #: members/models.py:170
 msgid "kind"
 msgstr "Art"
@@ -330,19 +343,19 @@ msgstr "Ausbildungstypen"
 msgid "date"
 msgstr "Datum"
 
-#: members/models.py:214 templates/members/form.html:27
+#: members/models.py:214 templates/members/form.html:26
 msgid "Education"
 msgstr "Ausbildung"
 
-#: templates/base.html:38
+#: templates/base.html:40
 msgid "ETAT"
 msgstr "ETAT"
 
-#: templates/base.html:55
+#: templates/base.html:62
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/base.html:68
+#: templates/base.html:75
 msgid "Log out"
 msgstr "Abmelden"
 
@@ -351,11 +364,11 @@ msgstr "Abmelden"
 msgid "Are you sure you want to delete %(object)s?"
 msgstr "Bist du sicher, dass du %(object)s löschen willst?"
 
-#: templates/confirm_delete.html:16 templates/members/delete.html:19
+#: templates/confirm_delete.html:16 templates/members/delete.html:18
 msgid "No"
 msgstr "Nein"
 
-#: templates/confirm_delete.html:18 templates/members/delete.html:21
+#: templates/confirm_delete.html:18 templates/members/delete.html:20
 msgid "YES!"
 msgstr "JA!"
 
@@ -367,6 +380,22 @@ msgstr "Keine Berechtigung!"
 #, python-format
 msgid "You are not allowed to edit %(object)s."
 msgstr "Du darfst %(object)s nicht bearbeiten."
+
+#: templates/camps/form.html:11
+msgid "Data"
+msgstr "Daten"
+
+#: templates/camps/form.html:31
+msgid "Camp address"
+msgstr "Lageradresse"
+
+#: templates/camps/list.html:28 templates/members/list.html:68
+msgid "New"
+msgstr "Neu"
+
+#: templates/camps/list.html:32 templates/members/list.html:77
+msgid "search"
+msgstr "suchen"
 
 #: templates/django_mptt_admin/change_list.html:45
 msgid "List view"
@@ -380,83 +409,83 @@ msgstr "Baumansicht"
 msgid "Account for"
 msgstr "Account für"
 
-#: templates/members/account_form.html:17 templates/members/form.html:164
+#: templates/members/account_form.html:17 templates/members/form.html:163
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/members/delete.html:14
+#: templates/members/delete.html:13
 msgid "The follow data will be deleted constantly:"
 msgstr "Die folgende Daten werden für immer gelöscht:"
 
-#: templates/members/form.html:9
+#: templates/members/form.html:8
 msgid "Add new member"
 msgstr "Neues Mitglied hinzufügen"
 
-#: templates/members/form.html:21
+#: templates/members/form.html:20
 msgid "Person"
 msgstr "Person"
 
-#: templates/members/form.html:23
+#: templates/members/form.html:22
 msgid "Contact"
 msgstr "Kontakt"
 
-#: templates/members/form.html:29
+#: templates/members/form.html:28
 msgid "Notes"
 msgstr "Notizen"
 
-#: templates/members/form.html:32
+#: templates/members/form.html:31
 msgid "Account"
 msgstr ""
 
-#: templates/members/form.html:60
+#: templates/members/form.html:59
 msgid "main"
 msgstr "Haupt"
 
-#: templates/members/form.html:75 templates/members/form.html.py:108
+#: templates/members/form.html:74 templates/members/form.html.py:107
 msgid "Type"
 msgstr "Typ"
 
-#: templates/members/form.html:76
+#: templates/members/form.html:75
 msgid "Kind"
 msgstr "Art"
 
-#: templates/members/form.html:77
+#: templates/members/form.html:76
 msgid "Value"
 msgstr "Wert"
 
-#: templates/members/form.html:109
+#: templates/members/form.html:108
 msgid "Date"
 msgstr "Datum"
 
-#: templates/members/form.html:125
+#: templates/members/form.html:124
 msgid "Member does not have an account yet."
 msgstr "Mitglied hat noch keinen Account."
 
-#: templates/members/form.html:129
+#: templates/members/form.html:128
 msgid "Create account"
 msgstr "Account erstellen"
 
-#: templates/members/form.html:133
+#: templates/members/form.html:132
 msgid "username"
 msgstr "Benutzername"
 
-#: templates/members/form.html:135
+#: templates/members/form.html:134
 msgid "last login"
 msgstr "Letztes Login"
 
-#: templates/members/form.html:137
+#: templates/members/form.html:136
 msgid "created"
 msgstr "Erstellt"
 
-#: templates/members/form.html:144
+#: templates/members/form.html:143
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: templates/members/form.html:149
+#: templates/members/form.html:148
 msgid "Delete account"
 msgstr "Account löschen"
 
-#: templates/members/form.html:162
+#: templates/members/form.html:161
 msgid "Delete"
 msgstr "Löschen"
 
@@ -472,17 +501,9 @@ msgstr "Aktive"
 msgid "Inactivs"
 msgstr "Inaktive"
 
-#: templates/members/list.html:68
-msgid "New"
-msgstr "Neu"
-
 #: templates/members/list.html:72
 msgid "Export"
 msgstr "Export"
-
-#: templates/members/list.html:77
-msgid "search"
-msgstr "suchen"
 
 #: templates/registration/login.html:15
 msgid "etat login"
@@ -491,6 +512,9 @@ msgstr ""
 #: templates/registration/login.html:27
 msgid "Login"
 msgstr "Anmelden"
+
+#~ msgid "General"
+#~ msgstr "Generell"
 
 #~ msgid "active"
 #~ msgstr "Aktive"

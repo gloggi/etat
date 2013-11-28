@@ -44,11 +44,11 @@ class Member(BaseModel):
         verbose_name_plural = _('Members')
 
     def __unicode__(self):
-        return self.fullname
-
-    @property
-    def fullname(self):
-        return u'%s %s' % (self.first_name, self.last_name)
+        name = u'%s %s' % (self.first_name, self.last_name)
+        if self.scout_name:
+            return u'%s v/o %s' % (name, self.scout_name)
+        else:
+            return name
 
     @cached_property
     def address(self):

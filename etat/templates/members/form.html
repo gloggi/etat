@@ -3,8 +3,7 @@
 
 {% block title %}
     {% if member %}
-        {{ member.fullname }}
-        {% if member.scout_name %}v/o {{ member.scout_name}}{% endif %}
+        {{ member }}
     {% else %}
         {% trans "Add new member" %}
     {% endif %}

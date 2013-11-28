@@ -23,9 +23,10 @@ class CampType(BaseModel):
 
 class Camp(BaseModel):
     title = models.CharField(_('title'), max_length=100)
-    type = models.ForeignKey(CampType, blank=True, null=True)
+    type = models.ForeignKey(CampType,
+        blank=True, null=True, verbose_name=_('type'))
     department = TreeForeignKey('departments.Department',
-        blank=True, null=True)
+        blank=True, null=True, verbose_name=_('Department'))
 
     begin = models.DateField(_('begin'), blank=True, null=True)
     end = models.DateField(_('end'), blank=True, null=True)
@@ -37,7 +38,8 @@ class Camp(BaseModel):
     city = models.CharField(_('city'), max_length=100, blank=True)
     phone = models.CharField(_('phone'), max_length=100, blank=True)
 
-    min_birth_year = models.PositiveIntegerField(blank=True, null=True)
+    min_birth_year = models.PositiveIntegerField(_('Min birth year'),
+        blank=True, null=True)
     fee = models.PositiveIntegerField(_('fee'), blank=True, null=True,
         help_text='CHF')
     notes = models.TextField(_('notes'), blank=True)
@@ -48,6 +50,7 @@ class Camp(BaseModel):
     class Meta:
         verbose_name = _('Camp')
         verbose_name_plural = _('Camps')
+        ordering = ('-begin',)
 
     def __unicode__(self):
         return self.title
@@ -75,12 +78,12 @@ class Participant(BaseModel):
         blank=True, null=True)
     confirmation = models.BooleanField(_('confirmation'), default=False)
 
-    payed_fee = models.PositiveIntegerField(blank=True, null=True)
-    payed_date = models.DateField(blank=True, null=True)
+    payed_fee = models.PositiveIntegerField(_('payed fee'), blank=True, null=True)
+    payed_date = models.DateField(_('payed date'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Participant')
         verbose_name_plural = _('Participants')
 
     def __unicode__(self):
-        return self.member.fullname
+        return unicode(self.member)

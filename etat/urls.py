@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^departments/', include('etat.departments.urls')),
     url(r'^members/', include('etat.members.urls')),
+    url(r'^camps/', include('etat.camps.urls')),
+    url(r'^select2/', include('django_select2.urls')),
     url(r'', include('etat.dashboard.urls')),
 )
 

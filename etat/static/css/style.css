@@ -150,6 +150,32 @@ ul {
     width: 100%;
 }
 
+/* camps */
+
+
+.type-filter a {
+    display: block;
+    color: black;
+    padding: 2px 0;
+    text-decoration: none;
+}
+
+.type-filter a.active {
+    font-weight: bold;
+}
+
+.camp-tabs .tab-pane {
+    padding: 20px 0;
+}
+
+table.participants tbody > tr > td,
+table.participants tbody > tr > th {
+    border: none;
+}
+
+table.participants td.name {
+    line-height: 40px;
+}
 
 /* design stuff */
 
