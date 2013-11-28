@@ -1,3 +1,7 @@
+{% if not request.is_ajax %}
+<html>
+<body>
+{% endif %}
 <div class="modal-content">
   <div class="modal-header">
     {% block header %}
@@ -8,3 +12,7 @@
   {% block content %}{% endblock %}
 </div>
 </div>
+{% if not request.is_ajax %}
+</body>
+</html>
+{% endif %}

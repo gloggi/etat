@@ -9,6 +9,7 @@ from django.utils.datastructures import SortedDict
 from etat.departments.models import Department, DepartmentType
 from etat.members.models import (Member, RoleType, Role, Address, Reachability,
     EducationType, Education)
+from etat.camps.models import CampType, Camp, ParticipantType, Participant
 
 FLOAT_RE = re.compile(r'^\d+\.\d+$')
 INT_RE = re.compile(r'^\d+$')
@@ -74,6 +75,11 @@ class Command(NoArgsCommand):
         self.ausbildungstypen = Dataset('db/Tabelle:Ausbildungstypen.csv')
         self.ausbildungen = Dataset('db/Tabelle:Ausbildungen.csv')
 
+        self.kurstypen = Dataset('db/Tabelle:Kurstypen.csv')
+        self.kurse = Dataset('db/Tabelle:Kurse.csv')
+        self.kursthaylitypen = Dataset('db/Tabelle:Kursthaylitypen.csv')
+        self.kursthaylis = Dataset('db/Tabelle:Kursthaylis.csv')
+
         self.existing_departments = Department.objects.all().values_list(
             'legacy_id', flat=True)
 
@@ -89,6 +95,11 @@ class Command(NoArgsCommand):
         self.import_funktionen()
         self.import_ausbildungstypen()
         self.import_ausbildungen()
+
+        self.import_kurstypen()
+        self.import_kurse()
+        self.import_kursthaylitypen()
+        self.import_kursthaylis()
 
     def import_korps(self):
         korps = self.korps.map({
@@ -465,6 +476,129 @@ class Command(NoArgsCommand):
         if new_ausbildungen:
             print "Import %d Ausbildungen" % len(new_ausbildungen)
             Education.objects.bulk_create(new_ausbildungen)
+
+    def import_kurstypen(self):
+        kurstypen = self.kurstypen.map({
+            'Kurstypnummer': 'legacy_id',
+            'Kurstypname': 'title',
+            'Sortierfolge': 'order',
+        })
+        existing_camp_types = CampType.objects.all().values_list(
+            'legacy_id', flat=True)
+        new_camp_types = []
+
+        for k in kurstypen:
+            if k['legacy_id'] in existing_camp_types:
+                continue
+            c = CampType()
+            for k, v in k.items():
+                setattr(c, k, v)
+            new_camp_types.append(c)
+
+        if new_camp_types:
+            print "Import %d Kurstypen" % len(new_camp_types)
+            CampType.objects.bulk_create(new_camp_types)
+
+    def import_kurse(self):
+        kurse = self.kurse.map({
+            'Laufnummer': 'legacy_id',
+            'Kurstyp': 'camp_type_legacy_id',
+            'Kursname': 'title',
+            'Min_Jahrgang': 'min_birth_year',
+            'Beginn': 'begin',
+            'Ende': 'end',
+            'Adresse1': 'address1',
+            'Adresse2': 'address2',
+            'PLZ': 'postal_code',
+            'Ort': 'city',
+            'Telefon': 'phone',
+            'Kursbeitrag': 'fee',
+            'Bemerkungen': 'notes'
+        })
+        existing_camps = Camp.objects.all().values_list('legacy_id', flat=True)
+        type_mapping = dict(CampType.objects.all().values_list('legacy_id', 'id'))
+        new_camps = []
+
+        for k in kurse:
+            if k['legacy_id'] in existing_camps:
+                continue
+            c = Camp()
+            type = k.get('camp_type_legacy_id')
+            if type:
+                c.type_id = type_mapping[type]
+            for v in ('begin', 'end', 'postal_code', 'fee', 'min_birth_year'):
+                if k[v] == '':
+                    k[v] = None
+            for k, v in k.items():
+                setattr(c, k, v)
+            new_camps.append(c)
+
+        if new_camps:
+            print "Import %d Kurse" % len(new_camps)
+            Camp.objects.bulk_create(new_camps)
+
+    def import_kursthaylitypen(self):
+        kursthaylitypen = self.kursthaylitypen.map({
+            'KursteilnehmerInnentypIn': 'legacy_id',
+            'Typenbezeichnung': 'title',
+            'Sortierfolge': 'order',
+        })
+        existing_participant_types= ParticipantType.objects.all().values_list(
+            'legacy_id', flat=True)
+        new_participant_types = []
+
+        for k in kursthaylitypen:
+            if k['legacy_id'] in existing_participant_types:
+                continue
+            c = ParticipantType()
+            for k, v in k.items():
+                setattr(c, k, v)
+            new_participant_types.append(c)
+
+        if new_participant_types:
+            print "Import %d Kursthaylitypen" % len(new_participant_types)
+            ParticipantType.objects.bulk_create(new_participant_types)
+
+    def import_kursthaylis(self):
+        kursthaylis = self.kursthaylis.map({
+            'KursteilnehmerInnennummer': 'legacy_id',
+            'Ref zur Person': 'member_legacy_id',
+            'TeilnehmerInnentyp': 'participant_type_legacy_id',
+            'Laufnummer': 'camp_legacy_id',
+            u'Bestätigung': 'confirmation',
+            'Lagerbeitrag_Einbezahlt': 'payed_fee',
+            'Lagerbeitrag_bezalt_am': 'payed_date',
+            'eingetragen_am': 'signup_date'
+        })
+        existing_paricipants = Participant.objects.all().values_list(
+            'legacy_id', flat=True)
+        camp_mapping = dict(Camp.objects.all().values_list('legacy_id', 'id'))
+        member_mapping = dict(Member.objects.all().values_list('legacy_id', 'id'))
+        type_mapping = dict(ParticipantType.objects.all().values_list(
+            'legacy_id', 'id'))
+        new_participants = []
+
+        for t in kursthaylis:
+            if t['legacy_id'] in existing_paricipants:
+                continue
+            p = Participant(
+                camp_id=camp_mapping[t['camp_legacy_id']],
+                member_id=member_mapping[t['member_legacy_id']]
+            )
+            type = t.get('participant_type_legacy_id')
+            if type:
+                p.type_id = type_mapping[type]
+            for v in ('signup_date', 'payed_fee', 'payed_date'):
+                if t[v] == '':
+                    t[v] = None
+            for k, v in t.items():
+                setattr(p, k, v)
+            new_participants.append(p)
+
+        if new_participants:
+            print "Import %d Teilnehmer" % len(new_participants)
+            Participant.objects.bulk_create(new_participants)
+
 
     def department_mapping(self):
         return dict(Department.objects.all().values_list('legacy_id', 'id'))

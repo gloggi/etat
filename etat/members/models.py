@@ -11,19 +11,9 @@ from django_countries import CountryField
 
 from sorl.thumbnail import ImageField
 
+from etat.base import BaseModel
 from etat.commons import STEPS
 from etat.departments.models import Department
-
-
-class BaseModel(models.Model):
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    legacy_id = models.PositiveIntegerField(blank=True, null=True,
-        editable=False, unique=True)
-
-    class Meta:
-        abstract = True
 
 
 class Member(BaseModel):

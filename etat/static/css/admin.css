@@ -1,0 +1,9 @@
+
+
+.dynamic-participant_set select {
+    width: 120px;
+}
+
+.dynamic-participant_set .vIntegerField {
+    width: 80px;
+}

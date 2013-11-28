@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     'etat',
     'etat.departments',
     'etat.members',
+    'etat.camps',
 )
 
 SUIT_CONFIG = {
