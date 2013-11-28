@@ -57,6 +57,9 @@ Etat.Views.MemberForm = Backbone.View.extend({
 
         this.initWidgets();
 
+        $('.chosen-container').tooltip({
+            placement: 'top'
+        });
     }
 });
 

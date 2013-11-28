@@ -159,6 +159,14 @@ def limited_role_formset(editor, data=None, *args, **kwargs):
                 'end': forms.DateInput(attrs={'class': 'date'}),
             }
 
+        def __init__(self, *args, **kwargs):
+            super(RoleInlineForm, self).__init__(*args, **kwargs)
+            if 'instance' in kwargs:
+                ancestors = kwargs['instance'].department.get_ancestors()
+                if ancestors:
+                    title = u' > '.join([a.name for a in ancestors])
+                    self.fields['department'].widget.attrs['title'] = title
+
     RoleFormset = inlineformset_factory(
         models.Member,
         models.Role,
