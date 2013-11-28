@@ -5,6 +5,7 @@ from django.forms.models import inlineformset_factory, BaseInlineFormSet
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from django.utils.timezone import now
 
 from mptt.forms import TreeNodeChoiceField
 
@@ -55,6 +56,12 @@ class MemberForm(forms.ModelForm):
         widgets = {
             'gender': forms.RadioSelect
         }
+
+    def clean_birthday(self):
+        birthday = self.cleaned_data['birthday']
+        if birthday and birthday > now().date():
+            raise forms.ValidationError(_('We do not accept time travelers'))
+        return birthday
 
 
 class EducationInlineForm(forms.ModelForm):
