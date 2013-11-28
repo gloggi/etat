@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
+from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import ugettext as _
 
 from etat.departments.models import Department
@@ -242,6 +243,7 @@ def member_delete(request, m_id):
     })
 
 
+@staff_member_required
 def account_create(request, m_id):
     member = get_object_or_404(Member, pk=m_id)
 
@@ -268,6 +270,7 @@ def account_create(request, m_id):
     })
 
 
+@staff_member_required
 def account_change_password(request, m_id):
     member = get_object_or_404(Member, pk=m_id)
     try:
@@ -289,6 +292,7 @@ def account_change_password(request, m_id):
     })
 
 
+@staff_member_required
 def account_delete(request, m_id):
     member = get_object_or_404(Member, pk=m_id)
     try:
