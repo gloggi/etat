@@ -12,6 +12,11 @@
         {{ form|bootstrap }}
     </div>
     <div class="modal-footer">
+        {% url 'participant_delete' p_id=participant.id as delete_url %}
+        <a href="{{ delete_url }}" class="btn btn-danger modal_link pull-left" data-width="500">
+          <i class="fa fa-trash-o"></i>
+          {% trans "Remove" %}
+        </a>
         <input type="submit" class="btn btn-success" value="{% trans 'Save' %}">
     </div>
 </form>
