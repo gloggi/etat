@@ -1,0 +1,37 @@
+{% extends "camps/base.html" %}
+{% load i18n bootstrap partials %}
+
+{% block maincontent %}
+<form method="post">
+  {% csrf_token %}
+  {% form_header form %}
+
+  {{ form.title|bootstrap_inline }}
+
+  <div class="row form-horizontal">
+      <div class="col-md-6">
+          {{ form.type|bootstrap_horizontal:'col-md-4' }}
+          {{ form.begin|bootstrap_horizontal:'col-md-4' }}
+          {{ form.min_birth_year|bootstrap_horizontal:'col-md-4' }}
+      </div>
+      <div class="col-md-6">
+          {{ form.department|bootstrap_horizontal:'col-md-4' }}
+          {{ form.end|bootstrap_horizontal:'col-md-4' }}
+          {{ form.fee|bootstrap_horizontal:'col-md-4' }}
+      </div>
+  </div>
+  <h3>{% trans "Camp address" %}</h3>
+  <div class="row form-horizontal">
+      <div class="col-md-6">
+          {{ form.address1|bootstrap_horizontal:'col-md-4' }}
+          {{ form.postal_code|bootstrap_horizontal:'col-md-4' }}
+          {{ form.phone|bootstrap_horizontal:'col-md-4' }}
+      </div>
+      <div class="col-md-6">
+          {{ form.address2|bootstrap_horizontal:'col-md-4' }}
+          {{ form.city|bootstrap_horizontal:'col-md-4' }}
+      </div>
+  </div>
+  <input type="submit" class="btn btn-success pull-right" value="{% trans 'Save' %}">
+</form>
+{% endblock %}

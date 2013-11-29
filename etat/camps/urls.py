@@ -9,4 +9,16 @@ urlpatterns = patterns('etat.camps.views',
         'camp_edit',
         name='camp_edit',
     ),
+    url(r'^(?P<c_id>\d+)/participants/$',
+        'participant_list',
+        name='participant_list'
+    ),
+    url(r'^participant/(?P<p_id>\d+)/$',
+        'participant_edit',
+        name='participant_edit'
+    ),
+    url(r'^participant/(?P<p_id>\d+)/delete/$',
+        'participant_delete',
+        name='participant_delete'
+    ),
 )

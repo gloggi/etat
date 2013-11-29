@@ -7,26 +7,21 @@ import models
 class CampForm(forms.ModelForm):
     class Meta:
         model = models.Camp
-        exclude = ('participants',)
+        exclude = ('members',)
         widgets = {
             'title': forms.TextInput(attrs={'class': 'input-lg'}),
-            'begin': forms.DateInput(attrs={'class': 'datepicker'}),
-            'end': forms.DateInput(attrs={'class': 'datepicker'}),
+            'begin': forms.DateInput(attrs={'class': 'date'}),
+            'end': forms.DateInput(attrs={'class': 'date'}),
         }
+
 
 class ParticipantForm(forms.ModelForm):
     class Meta:
         model = models.Participant
-        fields = ('type', 'signup_date', 'payed_fee', 'payed_date')
+        exclude = ('member', 'camp')
         widgets = {
-            'signup_date': forms.DateInput(attrs={'class': 'datepicker'}),
-            'payed_date': forms.DateInput(attrs={'class': 'datepicker'}),
+            'signup_date': forms.DateInput(attrs={'class': 'date'}),
+            'payed_date': forms.DateInput(attrs={'class': 'date'}),
             'payed_fee': forms.TextInput,
         }
 
-ParticipantsFormset = inlineformset_factory(
-    models.Camp,
-    models.Participant,
-    form=ParticipantForm,
-    extra=0,
-)

@@ -1,5 +1,4 @@
 
-
 $(function () {
     var campList = new List('camp-view', {
         valueNames: ['title', 'type']
@@ -18,11 +17,4 @@ $(function () {
             });
         }
     });
-
-    $('#camp-tabs a').click(function (e) {
-      e.preventDefault();
-      $(this).tab('show');
-    });
-
-    $('#camp-tabs a:first').tab('show');
 });

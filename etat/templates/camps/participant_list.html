@@ -1,0 +1,22 @@
+{% extends "camps/base.html" %}
+{% load i18n bootstrap partials %}
+
+{% block maincontent %}
+    <ul class="list list-group">
+        {% for participant in participants %}
+          <li class="list-group-item">
+              {{ participant.member }}
+              <div class="pull-right">
+                {% url 'participant_delete' p_id=participant.id as delete_url %}
+                <a href="{{ delete_url }}" class="btn btn-danger btn-xs ajax_modal">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+                {% url 'participant_edit' p_id=participant.id as edit_url %}
+                <a href="{{ edit_url }}" class="btn btn-warning btn-xs ajax_modal">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              </div>
+          </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

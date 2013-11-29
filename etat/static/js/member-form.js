@@ -16,11 +16,6 @@ Etat.Views.MemberForm = Backbone.View.extend({
         return dd + '.' + mm + '.' + yyyy;
     },
 
-    initWidgets: function() {
-        $(".member-form select").chosen({width: '100%'});
-        $(".member-form input.date").datepicker({format: 'dd.mm.yyyy'});
-    },
-
     initialize: function() {
 
         $('.member-tab-nav a').click(function() {
@@ -54,8 +49,6 @@ Etat.Views.MemberForm = Backbone.View.extend({
             formTemplate: $('.education.form-template tr'),
             added: this.initWidgets
         });
-
-        this.initWidgets();
 
         $('.chosen-container').tooltip({
             placement: 'top'

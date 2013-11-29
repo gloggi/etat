@@ -12,12 +12,21 @@ function showModal(url, options) {
                 $('#ajax-modal').html(xhr.responseText);
             }
             $('#ajax-modal').modal(options);
+            $("#ajax-modal select").chosen({width: '100%'});
+            $("#ajax-modal input.date").datepicker({format: 'dd.mm.yyyy'});
         }
     });
 }
 
+$('body').on('click', '.ajax_modal', function() {
+    var url = $(this).attr('href'),
+        width = $(this).data('width') || '900px';
+    showModal(url, {widht:width});
+    return false;
+});
+
 $('#ajax-modal').on('click', '.modal_link', function() {
-    var url = $(this).attr('href');
+    var url = $(this).attr('href'),
         new_width = $(this).data('width') || '900px';
 
     $('#ajax-modal').load(url, function() {

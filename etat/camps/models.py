@@ -44,7 +44,7 @@ class Camp(BaseModel):
         help_text='CHF')
     notes = models.TextField(_('notes'), blank=True)
 
-    participants = models.ManyToManyField('members.Member',
+    members = models.ManyToManyField('members.Member',
         through='Participant', related_name='camps')
 
     class Meta:
@@ -70,8 +70,8 @@ class ParticipantType(BaseModel):
 
 
 class Participant(BaseModel):
-    camp = models.ForeignKey(Camp)
-    member = models.ForeignKey('members.Member')
+    camp = models.ForeignKey(Camp, related_name='participants')
+    member = models.ForeignKey('members.Member', related_name='+')
     type = models.ForeignKey(ParticipantType)
 
     signup_date = models.DateField(_('Signup date'), default=date.today,

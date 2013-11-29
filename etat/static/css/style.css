@@ -164,10 +164,6 @@ ul {
     font-weight: bold;
 }
 
-.camp-tabs .tab-pane {
-    padding: 20px 0;
-}
-
 table.participants tbody > tr > td,
 table.participants tbody > tr > th {
     border: none;
@@ -175,6 +171,17 @@ table.participants tbody > tr > th {
 
 table.participants td.name {
     line-height: 40px;
+}
+
+
+
+#sidebar.camps a {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#sidebar.camps input {
+    width: 100%;
 }
 
 /* design stuff */
