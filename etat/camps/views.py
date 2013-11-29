@@ -63,9 +63,9 @@ def participant_delete(request, p_id):
     participant = get_object_or_404(Participant, pk=p_id)
     if request.method == 'POST':
         participant.delete()
-        return HttpResponse('Deleted', status=204)
+        return render(request, 'modals/reload.html')
 
-    return render(request, 'confirm_delete.html', {
+    return render(request, 'modals/confirm_delete.html', {
         'object': participant
     })
 

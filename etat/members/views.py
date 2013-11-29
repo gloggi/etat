@@ -207,7 +207,7 @@ def member_edit(request, m_id):
     member = get_object_or_404(Member, pk=m_id)
 
     if not has_permission_to_edit(editor, member):
-        return render(request, 'permission_denied.html', {
+        return render(request, 'modals/permission_denied.html', {
             'object': member
         }, status=403)
 
@@ -304,6 +304,6 @@ def account_delete(request, m_id):
         user.delete()
         return redirect('member_edit', m_id=m_id)
 
-    return render(request, 'confirm_delete.html', {
+    return render(request, 'modals/confirm_delete.html', {
         'object': user
     })
