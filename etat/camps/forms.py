@@ -18,7 +18,7 @@ class CampForm(forms.ModelForm):
 class ParticipantForm(forms.ModelForm):
     class Meta:
         model = models.Participant
-        exclude = ('member', 'camp')
+        exclude = ('member', 'camp', 'confirmation')
         widgets = {
             'signup_date': forms.DateInput(attrs={'class': 'date'}),
             'payed_date': forms.DateInput(attrs={'class': 'date'}),

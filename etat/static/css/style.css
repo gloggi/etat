@@ -184,6 +184,14 @@ table.participants td.name {
     width: 100%;
 }
 
+.participants a.btn {
+    position: relative;
+    right: 10px;
+    z-index: 100;
+    top: 10px;
+    float: right;
+}
+
 /* design stuff */
 
 .logo-small {
