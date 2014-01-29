@@ -9,15 +9,21 @@
 <div id="camp-view" class="row">
   <div id="sidebar" class="col-md-3">
     <div class="well">
-      <h3>{% trans "Camp type" %}</h3>
-      <div class="type-filter">
-        <a href="#" data-filter="" class="active">{% trans "All" %}</a>
-        {% for type in types %}
-          <a href="#" data-filter="{{ type.id }}">
-            {{ type }}
-          </a>
+      <h3>{% trans "Year" %}</h3>
+      <select class="year">
+        <option value="" selected>{% trans "All" %}</option>
+        {% for year in years %}
+          <option value="{{ year }}">{{ year }}</option>
         {% endfor %}
-      </div>
+      </select>
+      <hr>
+      <h3>{% trans "Camp type" %}</h3>
+      <select class="type">
+        <option value="" selected>{% trans "All" %}</option>
+        {% for type in types %}
+          <option value="{{ type.id }}">{{ type }}</option>
+        {% endfor %}
+      </select>
     </div>
   </div>
   <div id="main" class="col-md-9">
@@ -36,6 +42,7 @@
       {% for camp in camps %}
           <a href="{% url 'camp_edit' c_id=camp.id %}" class="list-group-item">
             <span class="title">{{ camp.title }}</span>
+            <span class="begin hidden">{{ camp.begin }}</span>
             <span class="type hidden">{{ camp.type }}</span>
             <span class="badge">{{ camp.participants__count }}</span>
           </a>

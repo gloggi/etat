@@ -50,10 +50,14 @@ class Camp(BaseModel):
     class Meta:
         verbose_name = _('Camp')
         verbose_name_plural = _('Camps')
-        ordering = ('-begin',)
+        ordering = ('-begin', '-end')
 
     def __unicode__(self):
         return self.title
+
+    @property
+    def year(self):
+        return self.begin.year
 
 
 class ParticipantType(BaseModel):

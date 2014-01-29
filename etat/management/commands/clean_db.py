@@ -5,6 +5,7 @@ from django.utils.timezone import now
 
 from etat.departments.models import Department
 from etat.members.models import Member, Role, RoleType, Reachability
+from etat.camps.models import Camp
 
 from django.core.management.base import NoArgsCommand
 
@@ -63,3 +64,6 @@ class Command(NoArgsCommand):
 
         print u"Auch der Praesi muss anstehen"
         RoleType.objects.filter(name="Präsident / Obmann").update(order=666)
+
+        print u"Unnötige Kurse entfernen"
+        Camp.objects.filter(begin__isnull=True, end__isnull=True).delete()

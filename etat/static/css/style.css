@@ -153,14 +153,14 @@ ul {
 /* camps */
 
 
-.type-filter a {
+.filter a {
     display: block;
     color: black;
     padding: 2px 0;
     text-decoration: none;
 }
 
-.type-filter a.active {
+.filter a.active {
     font-weight: bold;
 }
 

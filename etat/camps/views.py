@@ -7,12 +7,15 @@ from .models import Camp, CampType, Participant
 from .forms import CampForm, ParticipantForm
 
 def camp_list(request):
-    camps = Camp.objects.values('id', 'title', 'type').annotate(Count('participants'))
+    camps = Camp.objects.values('id', 'title', 'type', 'begin')
+    camps = camps.annotate(Count('participants'))
     types = CampType.objects.all()
+    years = [date.year for date in Camp.objects.dates('begin', 'year', order='DESC')]
 
     return render(request, 'camps/camp_list.html', {
         'camps': camps,
         'types': types,
+        'years': years,
     })
 
 

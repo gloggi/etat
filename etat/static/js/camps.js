@@ -1,19 +1,27 @@
 
 $(function () {
     var campList = new List('camp-view', {
-        valueNames: ['title', 'type']
+        valueNames: ['title', 'begin', 'type']
     });
 
-    $('.type-filter a').click(function () {
-        $('.type-filter a').removeClass('active');
-        $(this).addClass('active');
-
-        var filter = $(this).data('filter');
-        if (filter === '') {
+    $('select.year').change(function () {
+        var year = $(this).val();
+        if (year === '') {
             campList.filter();
         } else {
             campList.filter(function(camp) {
-                return parseInt(camp.values().type, 10) === filter;
+                return camp.values().begin.indexOf(year) !== -1;
+            });
+        }
+    });
+
+    $('select.type').change(function () {
+        var type = $(this).val();
+        if (type === '') {
+            campList.filter();
+        } else {
+            campList.filter(function(camp) {
+                return camp.values().type === type;
             });
         }
     });
