@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from django.utils.functional import cached_property
 
 from mptt.fields import TreeForeignKey
-from django_countries import CountryField
+from django_countries.fields import CountryField
 
 from sorl.thumbnail import ImageField
 

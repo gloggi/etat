@@ -74,6 +74,9 @@ ul {
     border-radius: 0 0 4px 4px;
 }
 
+#filters .help-block  {
+    display: none;
+}
 
 .sort {
     position: relative;
