@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-29 00:08+0100\n"
+"POT-Creation-Date: 2014-02-02 22:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,12 @@ msgstr "Deutsch"
 msgid "English"
 msgstr "Englisch"
 
-#: camps/models.py:12 camps/models.py:25 camps/models.py:60
+#: camps/models.py:12 camps/models.py:25 camps/models.py:64
 #: members/models.py:195
 msgid "title"
 msgstr "Titel"
 
-#: camps/models.py:16 templates/camps/list.html:12
+#: camps/models.py:16 templates/camps/camp_list.html:20
 msgid "Camp type"
 msgstr "Lagertyp"
 
@@ -39,7 +39,7 @@ msgstr "Lagertyp"
 msgid "Camp types"
 msgstr "Lagertypen"
 
-#: camps/models.py:27 members/models.py:169 templates/camps/form.html:49
+#: camps/models.py:27 members/models.py:169
 msgid "type"
 msgstr "Typ"
 
@@ -89,41 +89,41 @@ msgstr "Notizen"
 
 #: camps/models.py:51
 msgid "Camp"
-msgstr "Lager"
+msgstr "Kurs"
 
 #: camps/models.py:52 templates/base.html:53
 msgid "Camps"
-msgstr "Lager"
+msgstr "Kurse"
 
-#: camps/models.py:64
+#: camps/models.py:68
 msgid "Participant type"
 msgstr "Teilnehmertyp"
 
-#: camps/models.py:65
+#: camps/models.py:69
 msgid "Participant types"
 msgstr "Teilnehmertypen"
 
-#: camps/models.py:77 templates/camps/form.html:50
+#: camps/models.py:81
 msgid "Signup date"
 msgstr "Anmeldedatum"
 
-#: camps/models.py:79
+#: camps/models.py:83
 msgid "confirmation"
 msgstr "Bestätigung"
 
-#: camps/models.py:81
+#: camps/models.py:85
 msgid "payed fee"
 msgstr "Betrag bezahlt"
 
-#: camps/models.py:82
+#: camps/models.py:86
 msgid "payed date"
 msgstr "Zahlungsdatum"
 
-#: camps/models.py:85
+#: camps/models.py:89
 msgid "Participant"
 msgstr "Teilnehmer"
 
-#: camps/models.py:86 templates/camps/form.html:14
+#: camps/models.py:90 templates/camps/base.html:17
 msgid "Participants"
 msgstr "Teilnehmer"
 
@@ -168,7 +168,7 @@ msgid "Roles"
 msgstr "Funktionen"
 
 #: members/forms.py:30 members/forms.py:37 members/forms.py:44
-#: templates/camps/list.html:14
+#: templates/camps/camp_list.html:14 templates/camps/camp_list.html.py:22
 msgid "All"
 msgstr "Alle"
 
@@ -225,7 +225,7 @@ msgstr "Geburtstag"
 msgid "application"
 msgstr "Anmeldung"
 
-#: members/models.py:43 templates/camps/form.html:48
+#: members/models.py:43
 msgid "Member"
 msgstr "Mitglied"
 
@@ -359,43 +359,46 @@ msgstr "Admin"
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/confirm_delete.html:12
-#, python-format
-msgid "Are you sure you want to delete %(object)s?"
-msgstr "Bist du sicher, dass du %(object)s löschen willst?"
-
-#: templates/confirm_delete.html:16 templates/members/delete.html:18
-msgid "No"
-msgstr "Nein"
-
-#: templates/confirm_delete.html:18 templates/members/delete.html:20
-msgid "YES!"
-msgstr "JA!"
-
-#: templates/permission_denied.html:5
-msgid "Permission denied!"
-msgstr "Keine Berechtigung!"
-
-#: templates/permission_denied.html:10
-#, python-format
-msgid "You are not allowed to edit %(object)s."
-msgstr "Du darfst %(object)s nicht bearbeiten."
-
-#: templates/camps/form.html:11
+#: templates/camps/base.html:12
 msgid "Data"
 msgstr "Daten"
 
-#: templates/camps/form.html:31
+#: templates/camps/base.html:22
+msgid "Back"
+msgstr ""
+
+#: templates/camps/camp_form.html:23
 msgid "Camp address"
 msgstr "Lageradresse"
 
-#: templates/camps/list.html:28 templates/members/list.html:68
+#: templates/camps/camp_form.html:35 templates/camps/participant_form.html:20
+#: templates/members/account_form.html:17 templates/members/form.html:163
+msgid "Save"
+msgstr "Speichern"
+
+#: templates/camps/camp_list.html:12
+msgid "Year"
+msgstr "Jahr"
+
+#: templates/camps/camp_list.html:34 templates/members/list.html:68
 msgid "New"
 msgstr "Neu"
 
-#: templates/camps/list.html:32 templates/members/list.html:77
+#: templates/camps/camp_list.html:38 templates/members/list.html:77
 msgid "search"
 msgstr "suchen"
+
+#: templates/camps/participant_form.html:18
+msgid "Remove"
+msgstr "Entfernen"
+
+#: templates/camps/participant_list.html:12
+msgid "paid"
+msgstr ""
+
+#: templates/camps/participant_list.html:14
+msgid "unpaid"
+msgstr ""
 
 #: templates/django_mptt_admin/change_list.html:45
 msgid "List view"
@@ -409,13 +412,17 @@ msgstr "Baumansicht"
 msgid "Account for"
 msgstr "Account für"
 
-#: templates/members/account_form.html:17 templates/members/form.html:163
-msgid "Save"
-msgstr "Speichern"
-
 #: templates/members/delete.html:13
 msgid "The follow data will be deleted constantly:"
 msgstr "Die folgende Daten werden für immer gelöscht:"
+
+#: templates/members/delete.html:18 templates/modals/confirm_delete.html:16
+msgid "No"
+msgstr "Nein"
+
+#: templates/members/delete.html:20 templates/modals/confirm_delete.html:18
+msgid "YES!"
+msgstr "JA!"
 
 #: templates/members/form.html:8
 msgid "Add new member"
@@ -504,6 +511,20 @@ msgstr "Inaktive"
 #: templates/members/list.html:72
 msgid "Export"
 msgstr "Export"
+
+#: templates/modals/confirm_delete.html:12
+#, python-format
+msgid "Are you sure you want to delete %(object)s?"
+msgstr "Bist du sicher, dass du %(object)s löschen willst?"
+
+#: templates/modals/permission_denied.html:5
+msgid "Permission denied!"
+msgstr "Keine Berechtigung!"
+
+#: templates/modals/permission_denied.html:10
+#, python-format
+msgid "You are not allowed to edit %(object)s."
+msgstr "Du darfst %(object)s nicht bearbeiten."
 
 #: templates/registration/login.html:15
 msgid "etat login"

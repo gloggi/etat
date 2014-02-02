@@ -176,6 +176,10 @@ table.participants td.name {
     line-height: 40px;
 }
 
+.participants .label {
+    padding: 2px;
+    width: 16px;
+}
 
 
 #sidebar.camps a {

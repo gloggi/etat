@@ -21,6 +21,8 @@ def camp_list(request):
 
 def camp_edit(request, c_id):
     camp = get_object_or_404(Camp, pk=c_id)
+    participants = camp.participants.select_related()
+
     if request.method == 'POST':
         form = CampForm(request.POST, instance=camp)
         if form.is_valid():
@@ -31,17 +33,8 @@ def camp_edit(request, c_id):
 
     return render(request, 'camps/camp_form.html', {
         'camp': camp,
-        'form': form,
-    })
-
-
-def participant_list(request, c_id):
-    camp = get_object_or_404(Camp, pk=c_id)
-    participants = camp.participants.select_related()
-
-    return render(request, 'camps/participant_list.html', {
-        'camp': camp,
         'participants': participants,
+        'form': form,
     })
 
 

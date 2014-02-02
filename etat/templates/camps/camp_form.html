@@ -1,37 +1,55 @@
-{% extends "camps/base.html" %}
+{% extends "base.html" %}
 {% load i18n bootstrap partials %}
 
-{% block maincontent %}
-<form method="post">
-  {% csrf_token %}
-  {% form_header form %}
+{% block javascript %}
+  <script src="{{ STATIC_URL }}js/camp-form.js"></script>
+{% endblock %}
 
-  {{ form.title|bootstrap_inline }}
+{% block content %}
+<div class="row">
+  <div id="sidebar" class="col-md-3 camps">
+    <div class="well">
+      <h3>{{ camp }}</h3>
+      <a href="{% url 'camp_list' %}" class="btn btn-warning">{% trans "Back" %}</a>
+      <a href="#" id="save-camp" class="btn btn-success">{% trans "Save" %}</a>
+    </div>
+  </div>
+  <div id="camp-form" class="col-md-9">
+    <form method="post">
+      {% csrf_token %}
+      {% form_header form %}
 
-  <div class="row form-horizontal">
-      <div class="col-md-6">
-          {{ form.type|bootstrap_horizontal:'col-md-4' }}
-          {{ form.begin|bootstrap_horizontal:'col-md-4' }}
-          {{ form.min_birth_year|bootstrap_horizontal:'col-md-4' }}
+      {{ form.title|bootstrap_inline }}
+
+      <div class="row form-horizontal">
+          <div class="col-md-6">
+              {{ form.type|bootstrap_horizontal:'col-md-4' }}
+              {{ form.begin|bootstrap_horizontal:'col-md-4' }}
+              {{ form.min_birth_year|bootstrap_horizontal:'col-md-4' }}
+          </div>
+          <div class="col-md-6">
+              {{ form.department|bootstrap_horizontal:'col-md-4' }}
+              {{ form.end|bootstrap_horizontal:'col-md-4' }}
+              {{ form.fee|bootstrap_horizontal:'col-md-4' }}
+          </div>
       </div>
-      <div class="col-md-6">
-          {{ form.department|bootstrap_horizontal:'col-md-4' }}
-          {{ form.end|bootstrap_horizontal:'col-md-4' }}
-          {{ form.fee|bootstrap_horizontal:'col-md-4' }}
+
+      <h3>{% trans "Participants" %}</h3>
+      <div class="participants list list-group">
+          {% for participant in participants %}
+           {% url 'participant_edit' p_id=participant.id as edit_url %}
+            <a href="{{ edit_url }}" class="list-group-item ajax_modal">
+                {{ participant.member }}
+
+                {% if participant.payed_fee %}
+                  <span class="label label-success pull-right"><i class="fa fa-check"></i></span>
+                {% else %}
+                  <span class="label label-danger pull-right"><i class="fa fa-times"></i></span>
+                {% endif %}
+            </a>
+          {% endfor %}
       </div>
+    </form>
   </div>
-  <h3>{% trans "Camp address" %}</h3>
-  <div class="row form-horizontal">
-      <div class="col-md-6">
-          {{ form.address1|bootstrap_horizontal:'col-md-4' }}
-          {{ form.postal_code|bootstrap_horizontal:'col-md-4' }}
-          {{ form.phone|bootstrap_horizontal:'col-md-4' }}
-      </div>
-      <div class="col-md-6">
-          {{ form.address2|bootstrap_horizontal:'col-md-4' }}
-          {{ form.city|bootstrap_horizontal:'col-md-4' }}
-      </div>
-  </div>
-  <input type="submit" class="btn btn-success pull-right" value="{% trans 'Save' %}">
-</form>
+</div>
 {% endblock %}
